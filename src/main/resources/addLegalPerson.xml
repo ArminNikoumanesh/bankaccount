@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<page title="Add customer">
+    <section title="شخص حقوقی">
+        <input label="نام شرکت" type="text" value="obj.name"/>
+        <input label="نام مدیر" type="text" value="obj.maneger"/>
+        <input label="آدرس" type="text" value="obj.address"/>
+        <input label="کدپستی" type="text" value="obj.postalCode"/>
+        <input label="تاریخ ثبت" type="date" value="obj.date"/>
+        <input label="کد ثبتی" type="text" value="obj.companyCode"/>
+
+        <table label="حساب بانکی" value="obj.bankAccounts" type="editable">
+            <input label="موجودی اولیه" type="text" value="inventory"/>
+            <input label="شماره حساب" type="text" value="accountNumber"/>
+            <comboBox label="نوع حساب" value="accountTypes">
+                <comboItem itemLabel="جاری" itemValue="CURRENT"/>
+                <comboItem itemLabel="قرض الحسنه" itemValue="NORMAL"/>
+            </comboBox>
+        </table>
+        <table label="تلفن" value="obj.numbers" type="editable">
+            <input label="تلفن" type="text" value="number"/>
+            <comboBox label="نوع" value="numberTypes">
+                <comboItem itemLabel="همراه" itemValue="MOBILE"/>
+                <comboItem itemLabel="ثابت" itemValue="HOME"/>
+                <comboItem itemLabel="محل کار" itemValue="WORK"/>
+            </comboBox>
+        </table>
+        <actions>
+            <button label="ذخیره">
+                <webService address="ws/saveLegal" clearPageOnSuccess="true">
+                    <webServiceInputObject name="obj"/>
+                </webService>
+            </button>
+        </actions>
+    </section>
+</page>

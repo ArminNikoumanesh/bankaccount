@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<page title="نمایش شخص حقیقی">
+        <search label="نام شخص:"
+                singleResultSearch="ws/findReal"
+                singleResultSearchInputkey="code"
+                value="obj">
+        </search>
+    <section title="مشخصات مشتری">
+        <input label="نام" type="text" value="obj.name" disable="true"/>
+        <input label="نام خانوادگی" type="text" value="obj.familyName" disable="true"/>
+        <input label="آدرس" type="text" value="obj.address" disable="true"/>
+        <input label="کد پستی" type="text" value="obj.postalCode" disable="true"/>
+        <input label="تاریخ تولد" type="date" value="obj.berthdateDate" disable="true"/>
+        <input label="کدملی" type="text" value="obj.nationalCode" disable="true"/>
+        <comboBox label="جنسیت" value="obj.gender" disable="true">
+            <comboItem itemLabel="مرد" itemValue="Male"/>
+            <comboItem itemLabel="زن" itemValue="Female"/>
+        </comboBox>
+        <table label="تلفن" value="obj.numbers" type="editable" disable="true">
+            <input label="تلفن" type="text" value="number" disable="true"/>
+            <comboBox label="نوع" value="numberTypes">
+                <comboItem itemLabel="همراه" itemValue="MOBILE"/>
+                <comboItem itemLabel="ثابت" itemValue="HOME"/>
+                <comboItem itemLabel="محل کار" itemValue="WORK"/>
+
+            </comboBox>
+        </table>
+    </section>
+</page>

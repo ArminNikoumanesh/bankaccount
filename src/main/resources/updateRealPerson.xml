@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<page title="جستجوی و ویرایش شخص حقیقی">
+
+        <search label="کدملی:"
+                singleResultSearch="ws/findReal"
+                singleResultSearchInputkey="nationalCode"
+                multiResultSearchAddress="ws/findRealAll"
+                multiResultSearchInput="x"
+                selectedResultKey="nationalCode"
+                title="جستجوی پیشرفته"
+                value="obj">
+            <input label="نام" type="text" value="x.name"/>
+            <input label="نام خانوادگی" type="text" value="x.familyName"/>
+            <table label="نتایج جستجو">
+                <input label="نام" type="text" value="name"/>
+                <input label="کدملی" type="text" value="nationalCode"/>
+            </table>
+        </search>
+
+    <section title="کاربر یافت شده">
+        <input label="نام" type="text" value="obj.name"/>
+        <input label="نام خانوادگی" type="text" value="obj.familyName"/>
+        <input label="آدرس" type="text" value="obj.address"/>
+        <input label="کد پستی" type="text" value="obj.postalCode"/>
+        <input label="تاریخ تولد" type="date" value="obj.birthday"/>
+        <input label="کدملی" type="text" value="obj.nationalCode" />
+        <input label="شماره حساب" type="text" value="obj.accountNumber" />
+        <comboBox label="جنسیت" value="obj.gender">
+            <comboItem itemLabel="مرد" itemValue="Male"/>
+            <comboItem itemLabel="زن" itemValue="Female"/>
+        </comboBox>
+        <comboBox label="وضعیت حساب" value="obg.activeType">
+            <comboItem itemLabel="فعال" itemValue="ACTIVE"/>
+            <comboItem itemLabel="مسدود" itemValue="NONACTIVE"/>
+        </comboBox>
+        <table label="تلفن" value="obj.numbers" type="editable">
+        <input label="تلفن" type="text" value="number"/>
+        <comboBox label="نوع" value="numberTypes">
+        <comboItem itemLabel="همراه" itemValue="MOBILE"/>
+        <comboItem itemLabel="ثابت" itemValue="HOME"/>
+        <comboItem itemLabel="محل کار" itemValue="WORK"/>
+        </comboBox>
+        </table>
+
+        <actions>
+            <button label="ذخیره">
+                <webService address="ws/updateReal" clearPageOnSuccess="true">
+                    <webServiceInputObject name="obj"/>
+                </webService>
+            </button>
+        </actions>
+    </section>
+</page>

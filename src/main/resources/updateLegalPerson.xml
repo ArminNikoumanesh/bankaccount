@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<page title="جستجوی و ویرایش شخص حقوقی">
+
+        <search label="کدثبتی:"
+                singleResultSearch="ws/findLegal"
+                singleResultSearchInputkey="code"
+                multiResultSearchAddress="ws/findLegalAll"
+                multiResultSearchInput="x"
+                selectedResultKey="companyCode"
+                title="جستجوی پیشرفته"
+                value="obj">
+            <input label="نام" type="text" value="x.name"/>
+            <input label="کدثبتی شرکت" type="text" value="x.companyCode"/>
+            <table label="نتایج جستجو">
+                <input label="نام" type="text" value="name"/>
+                <input label="کدثبتی" type="text" value="companyCode"/>
+            </table>
+        </search>
+
+    <section title="کاربر یافت شده">
+        <input label="نام" type="text" value="obj.name"/>
+        <input label="نام مدیر" type="text" value="obj.maneger"/>
+        <input label="آدرس" type="text" value="obj.address"/>
+        <input label="کدپستی" type="text" value="obj.postalCode"/>
+        <input label="تاریخ ثبت شرکت" type="date" value="obj.date"/>
+        <input label="کدثبتی شرکت" type="text" value="obj.companyCode" />
+        <input label="شماره حساب" type="text" value="obj.accountNumber" />
+
+        <comboBox label="وضعیت حساب" value="obg.activeType">
+            <comboItem itemLabel="فعال" itemValue="ACTIVE"/>
+            <comboItem itemLabel="مسدود" itemValue="NONACTIVE"/>
+        </comboBox>
+
+        <table label="تلفن" value="obj.numbers" type="editable">
+            <input label="تلفن" type="text" value="number"/>
+            <comboBox label="نوع" value="numberTypes">
+                <comboItem itemLabel="همراه" itemValue="MOBILE"/>
+                <comboItem itemLabel="ثایت" itemValue="HOME"/>
+                <comboItem itemLabel="محل کار" itemValue="WORK"/>
+            </comboBox>
+        </table>
+
+        <actions>
+            <button label="ذخیره">
+                <webService address="ws/updateLegal" clearPageOnSuccess="true">
+                    <webServiceInputObject name="obj"/>
+                </webService>
+            </button>
+        </actions>
+    </section>
+</page>
