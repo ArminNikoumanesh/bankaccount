@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <page
-      title="بانک اقتصاد نوین" attA="000000" attB="ccac5b" attC="enbank.png">
+      title="بانک اقتصاد نوین" attA="195047" attB="aaab5b" attC="enbank.png">
     <section title="بانک داری شخصی">
         <input label="نام کاربری" type="text" value="obj.user"/>
         <input label="کلمه عبور" type="password" value="obj.pass"/>
