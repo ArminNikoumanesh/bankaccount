@@ -28,7 +28,6 @@ public class LegalPersonRestController  {
 
 
 
-
         @RequestMapping(value = "ws/saveLegal", method = RequestMethod.POST)
     public ResponseDto<String> saveLegal(@Valid @RequestBody LegalPersonDto legalPersonDto) {
         logger.info("start save legal");
