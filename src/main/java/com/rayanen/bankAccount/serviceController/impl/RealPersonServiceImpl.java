@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Objects;
 
-public class RealPersonServiceIMPL {
+public class RealPersonServiceImpl {
 
-    private static Logger logger= LoggerFactory.getLogger(RealPersonServiceIMPL.class);
+    private static Logger logger= LoggerFactory.getLogger(RealPersonServiceImpl.class);
 
 
     private RealPersonDao realPersonDao;
 
-    public RealPersonServiceIMPL(RealPersonDao realPersonDao) {
+    public RealPersonServiceImpl(RealPersonDao realPersonDao) {
         this.realPersonDao = realPersonDao;
     }
 

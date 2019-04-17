@@ -18,12 +18,12 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class TransationServiceIMPL {
+public class TransationServiceImpl {
 
     private static Logger logger= LoggerFactory.getLogger(TransactionRestController.class);
     private BankAccountDao bankAccountDao;
 
-    public TransationServiceIMPL(BankAccountDao bankAccountDao) {
+    public TransationServiceImpl(BankAccountDao bankAccountDao) {
         this.bankAccountDao = bankAccountDao;
     }
 

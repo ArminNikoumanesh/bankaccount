@@ -9,8 +9,10 @@ import com.rayanen.bankAccount.model.entity.LegalPerson;
 import com.rayanen.bankAccount.model.entity.RealPerson;
 import com.rayanen.bankAccount.model.entity.Transaction;
 import com.rayanen.bankAccount.restController.LegalPersonRestController;
+import com.rayanen.bankAccount.serviceController.impl.LegalPersonServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -21,6 +23,8 @@ import java.util.List;
 import java.util.Objects;
 
 
+
+@Component
 public class Facade {
     private static Logger logger= LoggerFactory.getLogger(LegalPersonRestController.class);
     private LegalPersonDao legalPersonDao;
@@ -29,6 +33,12 @@ public class Facade {
 
 
 
+
+LegalPersonServiceImpl legalPersonService;
+
+    public Facade(LegalPersonServiceImpl legalPersonService) {
+        this.legalPersonService = legalPersonService;
+    }
 
 
     @Transactional(rollbackOn = Exception.class)

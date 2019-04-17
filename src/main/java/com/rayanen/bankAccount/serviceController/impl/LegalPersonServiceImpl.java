@@ -5,27 +5,31 @@ import com.rayanen.bankAccount.dto.LegalPersonDto;
 import com.rayanen.bankAccount.dto.ResponseDto;
 import com.rayanen.bankAccount.dto.ResponseException;
 import com.rayanen.bankAccount.dto.ResponseStatus;
+import com.rayanen.bankAccount.model.dao.BankAccountDao;
 import com.rayanen.bankAccount.model.dao.LegalPersonDao;
+import com.rayanen.bankAccount.model.entity.ActiveType;
 import com.rayanen.bankAccount.model.entity.BankAccount;
+import com.rayanen.bankAccount.model.entity.Customer;
 import com.rayanen.bankAccount.model.entity.LegalPerson;
 import com.rayanen.bankAccount.restController.LegalPersonRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-
-
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 
-public class LegalPersonServiceIMPL {
+
+@Component
+public class LegalPersonServiceImpl {
 
     private static Logger logger= LoggerFactory.getLogger(LegalPersonRestController.class);
     private LegalPersonDao legalPersonDao;
 
 
-    public LegalPersonServiceIMPL(LegalPersonDao legalPersonDao) {
+    public LegalPersonServiceImpl(LegalPersonDao legalPersonDao) {
         this.legalPersonDao = legalPersonDao;
 
     }
@@ -46,10 +50,11 @@ public class LegalPersonServiceIMPL {
                 logger.error("CompanyCode save legal error");
                 return new ResponseDto<>(ResponseStatus.Error, null, null, new ResponseException("کدثبتی شرکت صحیح نمی باشد"));
             }
-//                        for (BankAccount bankAccount: BankAccount.getBankAccounts())
-//                  {
-//                      bankAccountDto.setActiveType(ActiveType.ACTIVE);
-//            }
+                            for (BankAccount bankAccount:legalPerson.getBankAccounts() )
+                  {
+//                      bankAccount.getActiveType()
+                     bankAccount.setActiveType(ActiveType.ACTIVE);
+            }
 
             logger.info("end save legal");
         }else{
