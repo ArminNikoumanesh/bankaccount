@@ -28,7 +28,7 @@ Facade facade ;
     public ResponseDto<String> saveLegal(@Valid @RequestBody LegalPersonDto legalPersonDto) {
         logger.info("start save legal");
 
-facade.saveLegal(legalPersonDto);
+         facade.saveLegal(legalPersonDto);
 
         return new ResponseDto<>(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
     }
@@ -39,8 +39,7 @@ facade.saveLegal(legalPersonDto);
 
     @RequestMapping(value = "ws/updateLegal", method = RequestMethod.POST)
     public ResponseDto<String> updateLegal(@RequestBody LegalPersonDto legalPersonDto) {
-        logger.info("start update legal");
- facade.updateLegal(legalPersonDto);
+        facade.updateLegal(legalPersonDto);
         return new ResponseDto<>(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);    }
 
 

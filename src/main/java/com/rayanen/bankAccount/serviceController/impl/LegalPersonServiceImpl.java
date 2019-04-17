@@ -50,9 +50,9 @@ public class LegalPersonServiceImpl {
                 logger.error("CompanyCode save legal error");
                 return new ResponseDto<>(ResponseStatus.Error, null, null, new ResponseException("کدثبتی شرکت صحیح نمی باشد"));
             }
+
                             for (BankAccount bankAccount:legalPerson.getBankAccounts() )
                   {
-//                      bankAccount.getActiveType()
                      bankAccount.setActiveType(ActiveType.ACTIVE);
             }
 

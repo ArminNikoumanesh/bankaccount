@@ -48,10 +48,14 @@ public class RealPersonServiceImpl {
                 logger.error("Real NationalCode save error");
                 return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("کد ملی وارد شده صحیح نمی باشد"));
             }
+
+
             for (BankAccount bankAccount: realPerson.getBankAccounts())
             {
                 bankAccount.setActiveType(ActiveType.ACTIVE);
             }
+
+
             logger.info("end real save");
             return new ResponseDto(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
         }
@@ -99,7 +103,7 @@ public class RealPersonServiceImpl {
 
 
     @RequestMapping(value = "ws/findRealAll", method = RequestMethod.POST)
-    public ResponseDto<List<RealPersonDto>> findLegalAll(@RequestBody RealPersonDto realPersonDto) {
+    public ResponseDto<List<RealPersonDto>> findRealAll(@RequestBody RealPersonDto realPersonDto) {
         List<RealPersonDto> result = realPersonDao.findByNameAndFamilyName(realPersonDto.getName(), realPersonDto.getFamilyName());
         return new ResponseDto(ResponseStatus.Ok, result, null, null);
     }
