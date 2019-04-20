@@ -24,22 +24,24 @@ Facade facade ;
         this.facade = facade;
     }
 
+
+
+
     @RequestMapping(value = "ws/saveLegal", method = RequestMethod.POST)
     public ResponseDto<String> saveLegal(@Valid @RequestBody LegalPersonDto legalPersonDto) {
-        logger.info("start save legal");
-
-         facade.saveLegal(legalPersonDto);
-
+        logger.info("startLegalSaveRestController");
+        facade.saveLegal(legalPersonDto);
+        logger.info("endLegalSaveRestController");
         return new ResponseDto<>(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
     }
 
 
 
-
-
     @RequestMapping(value = "ws/updateLegal", method = RequestMethod.POST)
     public ResponseDto<String> updateLegal(@RequestBody LegalPersonDto legalPersonDto) {
+        logger.info("startLegalUpdateRestController");
         facade.updateLegal(legalPersonDto);
+        logger.info("endLegalUpdateRestController");
         return new ResponseDto<>(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);    }
 
 
@@ -47,17 +49,17 @@ Facade facade ;
 
     @RequestMapping(value = "ws/findLegal", method = RequestMethod.POST)
     public ResponseDto<LegalPerson> findLegal(@RequestParam String code) {
-
-     facade.findLegal(code);
-
-        logger.info("finding legal");
+        logger.info("startFindingLegalRestController");
+        facade.findLegal(code);
+        logger.info("endFindingLegalRestController");
         return new ResponseDto(ResponseStatus.Ok, null, null, null);
     }
 
     @RequestMapping(value = "ws/findLegalAll", method = RequestMethod.POST)
     public ResponseDto<List<LegalPersonDto>> findLegalAll(@RequestBody LegalPersonDto legalPersonDto) {
+        logger.info("startFindingAllLegalRestController");
         facade.findLegalAll(legalPersonDto);
-
+        logger.info("endFindingLegalRestController");
         return new ResponseDto(ResponseStatus.Ok, null, null, null);
 
     }

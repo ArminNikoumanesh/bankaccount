@@ -12,6 +12,7 @@ public  class BankAccount {
     @GeneratedValue
     private Integer id;
 
+    @Column(unique = true)
     private String accountNumber;
 
     private AccountType accountTypes;
@@ -23,20 +24,19 @@ public  class BankAccount {
     private Integer version;
 
     //vaze hesab
-    private ActiveType activeType;
+    private Boolean isActive=true;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "ARN_BANKACCOUNT_TRANSACTIONS")
     private List<Transaction> transactions;
 
 
-
-    public ActiveType getActiveType() {
-        return activeType;
+    public Boolean getActive() {
+        return isActive;
     }
 
-    public void setActiveType(ActiveType activeType) {
-        this.activeType = activeType;
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
     public Integer getVersion() {

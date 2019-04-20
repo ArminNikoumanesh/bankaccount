@@ -35,6 +35,8 @@ public abstract class Customer  {
     @Version
     private Integer version;
 
+
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "ARN_CUSTOMER_BANKACCOUNTLIST")
     private List<BankAccount> bankAccounts;

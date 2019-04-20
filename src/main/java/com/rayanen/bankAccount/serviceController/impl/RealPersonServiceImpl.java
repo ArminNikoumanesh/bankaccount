@@ -2,14 +2,10 @@ package com.rayanen.bankAccount.serviceController.impl;
 
 import com.rayanen.bankAccount.dto.*;
 import com.rayanen.bankAccount.model.dao.RealPersonDao;
-import com.rayanen.bankAccount.model.entity.ActiveType;
-import com.rayanen.bankAccount.model.entity.BankAccount;
 import com.rayanen.bankAccount.model.entity.RealPerson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -32,7 +28,7 @@ public class RealPersonServiceImpl {
 
 
     public ResponseDto<String> saveReal( @RequestBody RealPerson realPerson) {
-        logger.info("start real save");
+        logger.info("startRealSaveService");
         Boolean report = realPersonDao.existsByNationalCode(realPerson.getNationalCode());
 
         if(!report) {
@@ -50,13 +46,8 @@ public class RealPersonServiceImpl {
             }
 
 
-            for (BankAccount bankAccount: realPerson.getBankAccounts())
-            {
-                bankAccount.setActiveType(ActiveType.ACTIVE);
-            }
 
-
-            logger.info("end real save");
+            logger.info("endRealSaveService");
             return new ResponseDto(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
         }
         return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("کد ملی وارد شده موجود می باشد"));
@@ -64,7 +55,7 @@ public class RealPersonServiceImpl {
 
 
     public ResponseDto<String> updateReal(@RequestBody RealPerson realPerson) {
-        logger.info("start update save");
+        logger.info("startUpdateUpdateService");
         Boolean report = realPersonDao.existsByNationalCode(realPerson.getNationalCode());
 
         if(report) {
@@ -81,7 +72,7 @@ public class RealPersonServiceImpl {
                 logger.error("Real NationalCode update error");
                 return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("کد ملی وارد شده صحیح نمی باشد"));
             }
-            logger.info("end update save");
+            logger.info("endUpdateUpdateService");
             return new ResponseDto(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
         }
         return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("کد ملی را نمی توانید تغییر دهید"));
@@ -91,20 +82,20 @@ public class RealPersonServiceImpl {
 
     public ResponseDto<RealPerson> findReal(@RequestParam String nationalCode) {
        RealPersonDto realPersonDto = realPersonDao.findByNationalCode(nationalCode);
-        logger.info("start finding Real");
+        logger.info("startFindingRealService");
         if (Objects.isNull(realPersonDto)) {
             logger.error("real wasn't found");
             return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("not find"));
         }
-        logger.info("real was found");
+        logger.info("endRealFindingService");
         return new ResponseDto(ResponseStatus.Ok, realPersonDto, null, null);
     }
 
 
-
-    @RequestMapping(value = "ws/findRealAll", method = RequestMethod.POST)
     public ResponseDto<List<RealPersonDto>> findRealAll(@RequestBody RealPersonDto realPersonDto) {
+        logger.info("startFindingAllRealService");
         List<RealPersonDto> result = realPersonDao.findByNameAndFamilyName(realPersonDto.getName(), realPersonDto.getFamilyName());
+        logger.info("endRealFindingAllService");
         return new ResponseDto(ResponseStatus.Ok, result, null, null);
     }
 }

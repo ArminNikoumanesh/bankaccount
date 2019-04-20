@@ -1,7 +1,5 @@
 package com.rayanen.bankAccount.dto;
 
-import com.rayanen.bankAccount.model.entity.ActiveType;
-
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,17 +13,14 @@ public class BankAccountDto {
     public BigDecimal inventory;
     private Integer version;
     //vaze hesab
-    private ActiveTypeDto activeType;
+    private Boolean isActive=true;
     private List<TransactionDto> transactions;
 
 
-    public ActiveTypeDto getActiveType() {
-        return activeType;
-    }
 
-    public void setActiveType(ActiveTypeDto activeType) {
-        this.activeType = activeType;
-    }
+    public Boolean getActive() { return isActive; }
+
+    public void setActive(Boolean active) { isActive = active; }
 
     public Integer getVersion() {
         return version;

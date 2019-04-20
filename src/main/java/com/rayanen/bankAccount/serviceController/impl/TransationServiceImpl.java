@@ -9,14 +9,11 @@ import com.rayanen.bankAccount.model.entity.Transaction;
 import com.rayanen.bankAccount.restController.TransactionRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+
 
 public class TransationServiceImpl {
 
@@ -35,14 +32,14 @@ public class TransationServiceImpl {
 
     public ResponseDto<Object> decreaseTransaction(@RequestBody Transaction transaction) {
         Boolean report = bankAccountDao.existsByAccountNumber(transaction.getPayeeAccountNumber());
-        logger.info("start depositTransaction");
+        logger.info("startDepositTransactionService");
         if (!report ) {
             return new ResponseDto<>(ResponseStatus.Error, null, null, new ResponseException("حسابی یافت نشد"));
         }
         BankAccount account = bankAccountDao.findBankAccountByAccountNumber(transaction.getPayeeAccountNumber());
         account.setInventory(account.getInventory().add(transaction.getAmount()));
 
-        logger.info("end depositTransaction");
+        logger.info("endDepositTransactionService");
         return new ResponseDto<>(ResponseStatus.Ok, null, "واریز وجه با موفقیت انجام شد.", null);
     }
 
@@ -50,14 +47,14 @@ public class TransationServiceImpl {
 
     public ResponseDto<Object> increaseTransaction(@RequestBody Transaction transaction) {
         Boolean report = bankAccountDao.existsByAccountNumber(transaction.getPayerAccountNumber());
-        logger.info("start pickedUpTransaction");
+        logger.info("startIncreaseTransactionService");
         if (report) {
             BankAccount account = bankAccountDao.findBankAccountByAccountNumber(transaction.getPayerAccountNumber());
             if (account.getInventory().compareTo(transaction.getAmount())>0 ){
                 return new ResponseDto<>(ResponseStatus.Error, null, null, new ResponseException("موجودی کم است"));
             }
             account.setInventory(account.getInventory().subtract(transaction.getAmount()) );
-            logger.info("end  pickedUpTransaction");
+            logger.info("endIncreaseTransactionServiceService");
             return new ResponseDto<>(ResponseStatus.Ok, null, "برداشت با موفقیت انجام شد.", null);
         }else{
             logger.error(" error finding account ");
@@ -71,8 +68,10 @@ public class TransationServiceImpl {
     //enteghal vajh
 
     public ResponseDto<Object> transferTransaction(@RequestBody Transaction transaction) {
+        logger.info("startTransferTransactionService");
         decreaseTransaction(transaction);
         increaseTransaction(transaction);
+        logger.info("endTransferTransactionService");
         return new ResponseDto<>(ResponseStatus.Ok, null, "انتقال وجه با موفقیت انجام شد.", null);
 
 
