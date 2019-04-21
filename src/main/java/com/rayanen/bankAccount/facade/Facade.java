@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 import java.util.List;
 
 
@@ -26,6 +25,8 @@ import java.util.List;
 @Component
 public class Facade {
     private static Logger logger= LoggerFactory.getLogger(LegalPersonRestController.class);
+
+
 
     ModelMapper modelMapper = new ModelMapper();
 
@@ -52,7 +53,7 @@ RealPersonServiceImpl realPersonService;
 
 
     @Transactional(rollbackOn = Exception.class)
-    public ResponseDto<String> saveLegal(@Valid @RequestBody LegalPersonDto legalPersonDto) {
+    public ResponseDto<String> saveLegal(@RequestBody LegalPersonDto legalPersonDto) {
         logger.info("startSaveLegalFacade");
 
        LegalPerson legalPerson=modelMapper.map(legalPersonDto,LegalPerson.class);
@@ -76,12 +77,16 @@ RealPersonServiceImpl realPersonService;
 
 
 
-    public ResponseDto<LegalPerson> findLegal(@RequestParam String code) {
+    public ResponseDto<LegalPerson> findLegal(@RequestBody String companyCode) {
         logger.info("startFindingLegalFacade");
 
+        LegalPerson legalPerson=modelMapper.map(companyCode,LegalPerson.class);
 
+        legalPersonService.findLegal(companyCode);
+
+        LegalPersonDto legalPersonDto=modelMapper.map(legalPerson,LegalPersonDto.class);
         logger.info("endFindingLegalFacade");
-        return new ResponseDto(ResponseStatus.Ok, null, null, null);
+        return new ResponseDto(ResponseStatus.Ok, legalPersonDto, null, null);
     }
 
 

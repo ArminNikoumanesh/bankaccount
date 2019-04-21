@@ -1,7 +1,5 @@
 package com.rayanen.bankAccount.serviceController.impl;
 
-
-import com.rayanen.bankAccount.dto.LegalPersonDto;
 import com.rayanen.bankAccount.dto.ResponseDto;
 import com.rayanen.bankAccount.dto.ResponseException;
 import com.rayanen.bankAccount.dto.ResponseStatus;
@@ -81,21 +79,24 @@ public class LegalPersonServiceImpl {
     }
 
 
-    public ResponseDto<LegalPerson> findLegal(@RequestParam String code) {
-        LegalPersonDto legalPersonDto = legalPersonDao.findByCompanyCode(code);
+    public ResponseDto<LegalPerson> findLegal(@RequestParam String companyCode) {
+       LegalPerson legalPerson= legalPersonDao.findByCompanyCode(companyCode);
+
         logger.info("startFindingLegalService");
-        if (Objects.isNull(legalPersonDto)) {
+
+        if (Objects.isNull(legalPerson)) {
+
             logger.error("not found legal");
             return new ResponseDto<>(ResponseStatus.Error, null, null, new ResponseException("شخصی با این مشخصات یافت نشد"));
         }
         logger.info("endFindingLegalService");
-        return new ResponseDto(ResponseStatus.Ok, legalPersonDto, null, null);
+        return new ResponseDto(ResponseStatus.Ok, legalPerson, null, null);
     }
 
 
-    public ResponseDto<List<LegalPersonDto>> findLegalAll(@RequestBody LegalPersonDto legalPersonDto) {
+    public ResponseDto<List<LegalPerson>> findLegalAll(@RequestBody LegalPerson legalPerson) {
         logger.info("startFindingAllLegalService");
-        List<LegalPersonDto> result = legalPersonDao.findByNameAndCompanyCode(legalPersonDto.getName(), legalPersonDto.getCompanyCode());
+        List<LegalPerson> result = legalPersonDao.findByNameAndCompanyCode(legalPerson.getName(), legalPerson.getCompanyCode());
         logger.info("endFindingAllLegalService");
         return new ResponseDto(ResponseStatus.Ok, result, null, null);
     }

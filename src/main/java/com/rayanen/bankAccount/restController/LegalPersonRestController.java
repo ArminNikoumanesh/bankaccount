@@ -48,11 +48,13 @@ Facade facade ;
 
 
     @RequestMapping(value = "ws/findLegal", method = RequestMethod.POST)
-    public ResponseDto<LegalPerson> findLegal(@RequestParam String code) {
+    public ResponseDto<LegalPerson> findLegal(@RequestParam String companyCode) {
         logger.info("startFindingLegalRestController");
-        facade.findLegal(code);
+
+        facade.findLegal(companyCode);
+
         logger.info("endFindingLegalRestController");
-        return new ResponseDto(ResponseStatus.Ok, null, null, null);
+        return new ResponseDto(ResponseStatus.Ok,null, null, null);
     }
 
     @RequestMapping(value = "ws/findLegalAll", method = RequestMethod.POST)
