@@ -29,7 +29,7 @@ Facade facade;
     @RequestMapping(value = "ws/decreaseTransaction", method = RequestMethod.POST)
     public ResponseDto<Object> decreaseTransaction(@RequestBody TransactionDto transactionDto) {
         logger.info("start depositTransaction");
-         
+
         logger.info("end depositTransaction");
         return new ResponseDto<>(ResponseStatus.Ok, null, "واریز وجه با موفقیت انجام شد.", null);
     }

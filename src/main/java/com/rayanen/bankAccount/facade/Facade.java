@@ -94,8 +94,11 @@ RealPersonServiceImpl realPersonService;
     public ResponseDto<List<LegalPersonDto>> findLegalAll(@RequestBody LegalPersonDto legalPersonDto) {
         logger.info("startFindingAllLegalFacade");
 
+        LegalPerson legalPerson=modelMapper.map(legalPersonDto,LegalPerson.class);
+        legalPersonService.findLegalAll(legalPerson);
+        LegalPersonDto legalPersonDtoResponse=modelMapper.map(legalPerson,LegalPersonDto.class);
         logger.info("endFindingAllLegalFacade");
-        return new ResponseDto(ResponseStatus.Ok, null, null, null);
+        return new ResponseDto(ResponseStatus.Ok, legalPersonDtoResponse, null, null);
     }
 
 
