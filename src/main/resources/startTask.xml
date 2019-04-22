@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page title="جستجو">
+    <section title="شروع تسک" >
+        <actions>
+            <button label="شروع">
+                <webService address="ws/activiti/startProcess" clearPageOnSuccess="true" >
+                </webService>
+            </button>
+        </actions>
+    </section>
+</page>

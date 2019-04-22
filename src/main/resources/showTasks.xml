@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<page title="جستجو">
+    <section title="جستجو">
+        <search label="کد ثبت:"
+                singleResultSearch="ws/activiti/getTasks"
+                singleResultSearchInputkey="taskId"
+                selectedResultKey="taskId"
+                title="جستجوی پیشرفته"
+                value="obj">
+        </search>
+    </section>
+    <section title="کارتابل" >
+        <table label="شماره تلفن" value="obj" >
+            <input label="نام :" type="text" value="name" disable="true"/>
+            <input label="شماره تسک :" type="text" value="taskId" disable="true"/>
+        </table>
+    </section>
+</page>

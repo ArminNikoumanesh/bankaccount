@@ -22,7 +22,7 @@ public class ActivitiConfig {
         speconfig.setTransactionManager(txManager);
         speconfig.setDatabaseSchemaUpdate("true");
         Resource[] resources = new Resource[1];
-        resources[0] = new ClassPathResource("process/Test.bpmn20.xml");
+        resources[0] = new ClassPathResource("process/Facility.bpmn20.xml");
         speconfig.setDeploymentResources(resources);
         return speconfig;
     }

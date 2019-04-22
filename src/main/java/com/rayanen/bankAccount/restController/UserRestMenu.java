@@ -2,7 +2,13 @@ package com.rayanen.bankAccount.restController;
 
 import com.rayanen.bankAccount.dto.*;
 import com.rayanen.bankAccount.dto.ResponseStatus;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.task.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -12,12 +18,17 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
 public class UserRestMenu {
 
 
+    @Autowired
+    private TaskService taskService;
 
+    @Autowired
+    private RuntimeService runtimeService;
 
     @RequestMapping(value = "/ws/login", method = RequestMethod.GET)
     public ResponseDto<MenuItmDto> getUserMenu() {
@@ -55,6 +66,46 @@ public class UserRestMenu {
                 return new ResponseDto(ResponseStatus.Error, null,null,new ResponseException("خطای سیستمی رخ داده است"));
         }
     }
+
+    @RequestMapping(value = "/ws/activiti/startProcess", method = RequestMethod.POST)
+    public ResponseDto startProcess() {
+        runtimeService.startProcessInstanceByKey("facility");
+        return new ResponseDto(ResponseStatus.Ok, null, "فرایند آغاز شد.", null);
+
+    }
+
+    @RequestMapping(value = "/ws/activiti/getTasks", method = RequestMethod.POST)
+    public ResponseDto<List<TaskDto>> getTasks(@RequestParam String taskId) {
+        List<Task> list = taskService.createTaskQuery().taskAssignee(getUsername()).list();
+        List<TaskDto> taskDtos = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            TaskDto taskDto = new TaskDto();
+            taskDto.setTaskId(list.get(i).getId());
+            taskDto.setName(list.get(i).getName());
+            taskDtos.add(taskDto);
+        }
+        return new ResponseDto(ResponseStatus.Ok, taskDtos, null, null);
+    }
+
+    @RequestMapping(value = "/ws/activiti/approveTask", method = RequestMethod.POST)
+    public ResponseDto approveTask(@RequestBody TaskDto taskDto) {
+        // Map<String,Object> map = new HashMap<>();
+        //   map.put("sanad",obj);
+        // taskService.complete(taskId, map);
+        taskService.complete(taskDto.getTaskId());
+        //taskService.setVariable(taskId,"sanad", obj);
+        return new ResponseDto(ResponseStatus.Ok, null, "تأیید شد.", null);
+    }
+
+    private String getUsername() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
+        }
+    }
+
 
 
     String readFile(String path, Charset encoding)
