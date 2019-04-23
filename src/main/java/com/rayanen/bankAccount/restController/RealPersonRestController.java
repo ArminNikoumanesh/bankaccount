@@ -39,7 +39,7 @@ Facade facade;
         logger.info("startUpdateSaveRestController");
         facade.updateReal(realPersonDto);
             logger.info("endUpdateSaveRestController");
-            return new ResponseDto(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
+            return new ResponseDto(ResponseStatus.Ok, null, "اطلاعات .", null);
         }
 
 

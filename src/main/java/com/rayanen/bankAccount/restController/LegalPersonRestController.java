@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 
-@Component
+@RestController
 public class LegalPersonRestController  {
 
     private static Logger logger= LoggerFactory.getLogger(LegalPersonRestController.class);
@@ -32,8 +32,10 @@ Facade facade ;
     public ResponseDto<String> saveLegal(@Valid @RequestBody LegalPersonDto legalPersonDto) {
         logger.info("startLegalSaveRestController");
         facade.saveLegal(legalPersonDto);
+        ResponseDto responseDto=facade.saveLegal(legalPersonDto);
+
         logger.info("endLegalSaveRestController");
-        return new ResponseDto<>(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
+        return new ResponseDto<>(ResponseStatus.Ok, null, null, null);
     }
 
 
@@ -63,6 +65,7 @@ Facade facade ;
         logger.info("startFindingAllLegalRestController");
         facade.findLegalAll(legalPersonDto);
         ResponseDto responseDto= facade.findLegal(legalPersonDto);
+
         logger.info("endFindingLegalRestController");
         return new ResponseDto(ResponseStatus.Ok, responseDto, null, null);
 

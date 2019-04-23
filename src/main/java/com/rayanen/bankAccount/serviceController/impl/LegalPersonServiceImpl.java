@@ -1,6 +1,6 @@
 package com.rayanen.bankAccount.serviceController.impl;
 
-import com.rayanen.bankAccount.dto.LegalPersonDto;
+
 import com.rayanen.bankAccount.dto.ResponseDto;
 import com.rayanen.bankAccount.dto.ResponseException;
 import com.rayanen.bankAccount.dto.ResponseStatus;
@@ -11,10 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Objects;
-
 
 @Component
 public class LegalPersonServiceImpl {
@@ -29,6 +27,8 @@ public class LegalPersonServiceImpl {
         this.legalPersonDao = legalPersonDao;
 
     }
+
+
 
     public ResponseDto<String> saveLegal( @RequestBody LegalPerson legalPerson) {
         logger.info("startSaveLegalService");
@@ -69,7 +69,7 @@ public class LegalPersonServiceImpl {
                 logger.error("Maneger error");
                 return new ResponseDto<>(ResponseStatus.Error, null, null, new ResponseException("نام مدیر صحیح نمی باشد"));
             }
-            if ( Objects.isNull(legalPerson.getCompanyCode()) || legalPerson.getCompanyCode().length() == 10 )  {
+            if ( Objects.isNull(legalPerson.getCompanyCode()) || legalPerson.getCompanyCode().length()<10 || legalPerson.getCompanyCode().length()>10)  {
                 logger.error("CompanyCode error");
                 return new ResponseDto<>(ResponseStatus.Error, null, null, new ResponseException("کدثبتی شرکت صحیح نمی باشد"));
             }

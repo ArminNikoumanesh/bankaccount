@@ -3,6 +3,7 @@ package com.rayanen.bankAccount.config;
 import org.activiti.engine.*;
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.activiti.spring.SpringProcessEngineConfiguration;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -21,9 +22,9 @@ public class ActivitiConfig {
         speconfig.setDataSource(dataSource);
         speconfig.setTransactionManager(txManager);
         speconfig.setDatabaseSchemaUpdate("true");
-        Resource[] resources = new Resource[1];
-        resources[0] = new ClassPathResource("process/Facility.bpmn20.xml");
-        speconfig.setDeploymentResources(resources);
+//        Resource[] resources = new Resource[1];
+//        resources[0] = new ClassPathResource("process/Facility.bpmn20.xml");
+//        speconfig.setDeploymentResources(resources);
         return speconfig;
     }
 

@@ -25,10 +25,11 @@
         <input label="تاریخ تولد" type="date" value="obj.birthday"/>
         <input label="کدملی" type="text" value="obj.nationalCode" />
         <input label="شماره حساب" type="text" value="obj.accountNumber" />
+
         <comboBox label="جنسیت" value="obj.gender">
             <comboItem itemLabel="مرد" itemValue="Male"/>
             <comboItem itemLabel="زن" itemValue="Female"/>
-
+        </comboBox>
         <table label="تلفن" value="obj.numbers" type="editable">
         <input label="تلفن" type="text" value="number"/>
         <comboBox label="نوع" value="numberTypes">

@@ -1,9 +1,11 @@
 <?xml version="1.0"?>
 <page title="جستجو">
-    <section title="شروع تسک" >
+    <section title="درخواست تسهیلات" >
+        <input label="شماره مشتری:" type="text" value="obj.cNumber"/>
         <actions>
-            <button label="شروع">
+            <button label="ثبت درخواست">
                 <webService address="ws/activiti/startProcess" clearPageOnSuccess="true" >
+                    <webServiceInputObject name="obj"/>
                 </webService>
             </button>
         </actions>

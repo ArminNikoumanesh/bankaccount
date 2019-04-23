@@ -7,10 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 import java.util.Objects;
-
 
 
 
@@ -18,7 +17,6 @@ import java.util.Objects;
 public class RealPersonServiceImpl {
 
     private static Logger logger= LoggerFactory.getLogger(RealPersonServiceImpl.class);
-
 
 
     private RealPersonDao realPersonDao;
@@ -44,13 +42,13 @@ public class RealPersonServiceImpl {
                 logger.error("Real FamilyName save error");
                 return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("نام خانوادگی وارد شده صحیح نمی باشد"));
             }
-            if ( Objects.isNull(realPerson.getNationalCode()) || realPerson.getNationalCode().length() == 10 ) {
+            if ( Objects.isNull(realPerson.getNationalCode()) || realPerson.getNationalCode().length()< 10) {
                 logger.error("Real NationalCode save error");
                 return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("کد ملی وارد شده صحیح نمی باشد"));
             }
 
 
-
+            realPersonDao.save(realPerson);
             logger.info("endRealSaveService");
             return new ResponseDto(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
         }

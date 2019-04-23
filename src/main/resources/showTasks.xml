@@ -1,18 +1,20 @@
 <?xml version="1.0"?>
 <page title="جستجو">
-    <section title="جستجو">
-        <search label="کد ثبت:"
-                singleResultSearch="ws/activiti/getTasks"
-                singleResultSearchInputkey="taskId"
-                selectedResultKey="taskId"
-                title="جستجوی پیشرفته"
-                value="obj">
-        </search>
-    </section>
+    <init>
+        <webService address="ws/activiti/getTasks" value="obj" />
+    </init>
     <section title="کارتابل" >
         <table label="شماره تلفن" value="obj" >
             <input label="نام :" type="text" value="name" disable="true"/>
             <input label="شماره تسک :" type="text" value="taskId" disable="true"/>
+            <button label="انجام عملیات" >
+                <webService address="pws/activiti/getUrlByFormKey" value="resultObject">
+                    <webServiceInput name="formKey" ref="currentRow.formKey"/>
+                    <afterSuccess>
+                        <action type="page" attA="ref" attB="resultObject" attC="currentRow.taskId"/>
+                    </afterSuccess>
+                </webService>
+            </button>
         </table>
     </section>
 </page>
