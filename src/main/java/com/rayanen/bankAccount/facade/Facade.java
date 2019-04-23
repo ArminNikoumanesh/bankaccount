@@ -25,10 +25,8 @@ public class Facade {
 
     ModelMapper modelMapper = new ModelMapper();
 
-
     RealPersonServiceImpl realPersonService;
     LegalPersonServiceImpl legalPersonService;
-
     public Facade(RealPersonServiceImpl realPersonService, LegalPersonServiceImpl legalPersonService) {
         this.realPersonService = realPersonService;
         this.legalPersonService = legalPersonService;
@@ -92,7 +90,7 @@ public class Facade {
 
 
     @Transactional(rollbackOn = Exception.class)
-    public ResponseDto<String> saveReal(@RequestBody RealPersonDto realPersonDto) {
+    public ResponseDto<String> saveReal(@RequestBody RealPersonDto realPersonDto) throws Exception {
         logger.info("startRealSaveFacade");
 
         RealPerson realPerson = modelMapper.map(realPersonDto, RealPerson.class);
@@ -104,7 +102,7 @@ public class Facade {
 
 
     @Transactional(rollbackOn = Exception.class)
-    public ResponseDto<String> updateReal(@RequestBody RealPersonDto realPersonDto) {
+    public ResponseDto<String> updateReal(@RequestBody RealPersonDto realPersonDto) throws Exception {
         logger.info("startUpdateRealFacade");
         RealPerson realPerson = modelMapper.map(realPersonDto, RealPerson.class);
         realPersonService.updateReal(realPerson);

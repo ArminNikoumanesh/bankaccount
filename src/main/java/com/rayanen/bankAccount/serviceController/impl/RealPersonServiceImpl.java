@@ -3,11 +3,11 @@ package com.rayanen.bankAccount.serviceController.impl;
 import com.rayanen.bankAccount.dto.*;
 import com.rayanen.bankAccount.model.dao.RealPersonDao;
 import com.rayanen.bankAccount.model.entity.RealPerson;
+import com.rayanen.bankAccount.serviceController.Validetion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -20,65 +20,37 @@ public class RealPersonServiceImpl {
 
 
     private RealPersonDao realPersonDao;
-
-    public RealPersonServiceImpl(RealPersonDao realPersonDao) {
+    Validetion validetion;
+    public RealPersonServiceImpl(RealPersonDao realPersonDao,Validetion validetion) {
         this.realPersonDao = realPersonDao;
+        this.validetion = validetion;
     }
 
 
 
 
 
-    public ResponseDto<String> saveReal( @RequestBody RealPerson realPerson) {
+    public void saveReal(RealPerson realPerson) throws Exception {
         logger.info("startRealSaveService");
-        Boolean report = realPersonDao.existsByNationalCode(realPerson.getNationalCode());
 
-        if(!report) {
-            if ( Objects.isNull(realPerson.getName()) || realPerson.getName().length() < 2) {
-                logger.error("Real name save error");
-                return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("نام وارد شده صحیح نمی باشد"));
-            }
-            if ( Objects.isNull(realPerson.getFamilyName()) || realPerson.getFamilyName().length() < 2){
-                logger.error("Real FamilyName save error");
-                return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("نام خانوادگی وارد شده صحیح نمی باشد"));
-            }
-            if ( Objects.isNull(realPerson.getNationalCode()) || realPerson.getNationalCode().length()< 10) {
-                logger.error("Real NationalCode save error");
-                return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("کد ملی وارد شده صحیح نمی باشد"));
-            }
-
+     validetion.RealValideton(realPerson);
 
             realPersonDao.save(realPerson);
+
             logger.info("endRealSaveService");
-            return new ResponseDto(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
-        }
-        return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("کد ملی وارد شده موجود می باشد"));
+
     }
 
 
-    public ResponseDto<String> updateReal(@RequestBody RealPerson realPerson) {
+    public void updateReal(RealPerson realPerson) throws Exception {
         logger.info("startUpdateUpdateService");
-        Boolean report = realPersonDao.existsByNationalCode(realPerson.getNationalCode());
 
-        if(report) {
+           validetion.realUpdateValidation(realPerson);
 
-            if ( Objects.isNull(realPerson.getName()) || realPerson.getName().length() < 2) {
-                logger.error("Real name update error");
-                return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("نام وارد شده صحیح نمی باشد"));
-            }
-            if ( Objects.isNull(realPerson.getFamilyName()) || realPerson.getFamilyName().length() < 2){
-                logger.error("Real FamilyName update error");
-                return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("نام خانوادگی وارد شده صحیح نمی باشد"));
-            }
-            if ( Objects.isNull(realPerson.getNationalCode()) || realPerson.getNationalCode().length() == 10) {
-                logger.error("Real NationalCode update error");
-                return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("کد ملی وارد شده صحیح نمی باشد"));
-            }
+
             logger.info("endUpdateUpdateService");
-            return new ResponseDto(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
         }
-        return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("کد ملی را نمی توانید تغییر دهید"));
-    }
+
 
 
 

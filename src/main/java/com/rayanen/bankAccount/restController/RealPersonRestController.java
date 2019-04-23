@@ -26,7 +26,7 @@ Facade facade;
 
 
     @RequestMapping(value = "ws/saveReal", method = RequestMethod.POST)
-    public ResponseDto<String> saveReal(@RequestBody RealPersonDto realPersonDto) {
+    public ResponseDto<String> saveReal(@RequestBody RealPersonDto realPersonDto) throws Exception {
         logger.info("startRealSaveRestController");
         facade.saveReal(realPersonDto);
             logger.info("endRealSaveRestController");
@@ -35,7 +35,7 @@ Facade facade;
 
 
     @RequestMapping(value = "ws/updateReal", method = RequestMethod.POST)
-    public ResponseDto<String> updateReal(@RequestBody RealPersonDto realPersonDto) {
+    public ResponseDto<String> updateReal(@RequestBody RealPersonDto realPersonDto) throws Exception {
         logger.info("startUpdateSaveRestController");
         facade.updateReal(realPersonDto);
             logger.info("endUpdateSaveRestController");
