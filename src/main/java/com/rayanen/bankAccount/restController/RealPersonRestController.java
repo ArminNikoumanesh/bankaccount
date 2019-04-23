@@ -44,11 +44,12 @@ Facade facade;
 
 
     @RequestMapping(value = "ws/findReal", method = RequestMethod.POST)
-    public ResponseDto<RealPerson> findReal(@RequestParam String nationalCode) {
+    public ResponseDto<RealPerson> findReal(@RequestBody RealPersonDto realPersonDto) {
         logger.info("startFindRealRestController");
-        facade.findReal(nationalCode);
+        facade.findReal(realPersonDto);
+        ResponseDto responseDto= facade.findReal(realPersonDto);
         logger.info("endFindRealRestController");
-        return new ResponseDto(ResponseStatus.Ok, null, null, null);
+        return new ResponseDto(ResponseStatus.Ok, responseDto, null, null);
     }
 
 
@@ -57,14 +58,19 @@ Facade facade;
     public ResponseDto<List<RealPersonDto>> findLegalAll(@RequestBody RealPersonDto realPersonDto) {
         logger.info("startFindRealAllRestController");
         facade.findRealAll(realPersonDto);
+        ResponseDto responseDto=facade.findRealAll(realPersonDto);
         logger.info("endFindRealAllRestController");
-        return new ResponseDto(ResponseStatus.Ok, null, null, null);
+        return new ResponseDto(ResponseStatus.Ok, responseDto, null, null);
     }
 
-//    @RequestMapping(value = "ws/delete" , method =RequestMethod.DELETE)
-//public  ResponseDto<Boolean> onDeletePerson(@PathVariable Integer id){
-//
-//}
+    @RequestMapping(value = "ws/deleteRealAccount", method = RequestMethod.POST)
+    public ResponseDto<String> deleteRealAccount(@RequestBody RealPersonDto realPersonDto) {
+        logger.info("startLegalUpdateRestController");
+       facade.deleteRealAccount(realPersonDto);
+        logger.info("endLegalUpdateRestController");
+        return new ResponseDto<>(ResponseStatus.Ok, null, "حساب مسدود شد", null);    }
+
+
 }
 
 

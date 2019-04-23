@@ -27,18 +27,16 @@
         <input label="شماره حساب" type="text" value="obj.accountNumber" />
 
 
-        <table label="تلفن" value="obj.numbers" type="editable">
-            <input label="تلفن" type="text" value="number"/>
-            <comboBox label="نوع" value="numberTypes">
-                <comboItem itemLabel="همراه" itemValue="MOBILE"/>
-                <comboItem itemLabel="ثایت" itemValue="HOME"/>
-                <comboItem itemLabel="محل کار" itemValue="WORK"/>
-            </comboBox>
-        </table>
-
+        <table label="حساب بانکی" value="obj.bankAccounts" type="editable">
+        <input label="موجودی:" type="text" value="inventory"/>
+        <input label="شماره حساب:" type="text" value="accountNumber"/>
+        <comboBox label="نوع حساب" value="accountTypes">
+            <comboItem itemLabel="جاری" itemValue="CURRENT"/>
+            <comboItem itemLabel="قرض الحسنه" itemValue="NORMAL"/>
+        </comboBox>
         <actions>
-            <button label="ذخیره">
-                <webService address="ws/updateLegal" clearPageOnSuccess="true">
+            <button label="مسدود">
+                <webService address="ws/deleteLegalAccount" clearPageOnSuccess="true">
                     <webServiceInputObject name="obj"/>
                 </webService>
             </button>

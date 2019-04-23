@@ -6,12 +6,13 @@ import com.rayanen.bankAccount.facade.Facade;
 import com.rayanen.bankAccount.model.entity.LegalPerson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
 
-@RestController
+@Component
 public class LegalPersonRestController  {
 
     private static Logger logger= LoggerFactory.getLogger(LegalPersonRestController.class);
@@ -48,23 +49,34 @@ Facade facade ;
 
 
     @RequestMapping(value = "ws/findLegal", method = RequestMethod.POST)
-    public ResponseDto<LegalPerson> findLegal(@RequestParam String companyCode) {
+    public ResponseDto<LegalPerson> findLegal(@RequestBody LegalPersonDto legalPersonDto) {
         logger.info("startFindingLegalRestController");
 
-        facade.findLegal(companyCode);
-
+        facade.findLegal(legalPersonDto);
+        ResponseDto responseDto= facade.findLegal(legalPersonDto);
         logger.info("endFindingLegalRestController");
-        return new ResponseDto(ResponseStatus.Ok,null, null, null);
+        return new ResponseDto(ResponseStatus.Ok,responseDto, null, null);
     }
 
     @RequestMapping(value = "ws/findLegalAll", method = RequestMethod.POST)
     public ResponseDto<List<LegalPersonDto>> findLegalAll(@RequestBody LegalPersonDto legalPersonDto) {
         logger.info("startFindingAllLegalRestController");
         facade.findLegalAll(legalPersonDto);
+        ResponseDto responseDto= facade.findLegal(legalPersonDto);
         logger.info("endFindingLegalRestController");
-        return new ResponseDto(ResponseStatus.Ok, null, null, null);
+        return new ResponseDto(ResponseStatus.Ok, responseDto, null, null);
 
     }
+
+    @RequestMapping(value = "ws/deleteLegalAccount", method = RequestMethod.POST)
+    public ResponseDto<String> deleteLegalAccount(@RequestBody LegalPersonDto legalPersonDto) {
+        logger.info("startLegalUpdateRestController");
+        facade.deleteLegalAccount(legalPersonDto);
+        logger.info("endLegalUpdateRestController");
+        return new ResponseDto<>(ResponseStatus.Ok, null, "حساب مسدود شد", null);    }
+
+
+
 
 
 }

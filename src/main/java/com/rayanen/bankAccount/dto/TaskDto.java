@@ -1,6 +1,7 @@
 package com.rayanen.bankAccount.dto;
 
 public class TaskDto {
+
     private String taskId;
     private String name;
 

@@ -29,18 +29,17 @@
             <comboItem itemLabel="مرد" itemValue="Male"/>
             <comboItem itemLabel="زن" itemValue="Female"/>
 
-        <table label="تلفن" value="obj.numbers" type="editable">
-        <input label="تلفن" type="text" value="number"/>
-        <comboBox label="نوع" value="numberTypes">
-        <comboItem itemLabel="همراه" itemValue="MOBILE"/>
-        <comboItem itemLabel="ثابت" itemValue="HOME"/>
-        <comboItem itemLabel="محل کار" itemValue="WORK"/>
-        </comboBox>
+        <table label="حساب بانکی" value="obj.bankAccounts" type="editable">
+            <input label="شماره حساب:" type="text" value="accountNumber"/>
+            <input label="موجودی: " type="text" value="accountNumber"/>
+            <comboBox label="نوع حساب" value="accountTypes">
+                <comboItem itemLabel="جاری" itemValue="CURRENT"/>
+                <comboItem itemLabel="قرض الحسنه" itemValue="NORMAL"/>
+            </comboBox>
         </table>
-
         <actions>
             <button label="ذخیره">
-                <webService address="ws/updateReal" clearPageOnSuccess="true">
+                <webService address="ws/deleteLegalAccount" clearPageOnSuccess="true">
                     <webServiceInputObject name="obj"/>
                 </webService>
             </button>

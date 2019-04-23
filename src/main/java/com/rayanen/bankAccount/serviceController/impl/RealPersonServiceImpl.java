@@ -5,16 +5,20 @@ import com.rayanen.bankAccount.model.dao.RealPersonDao;
 import com.rayanen.bankAccount.model.entity.RealPerson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-
-
 import java.util.List;
 import java.util.Objects;
 
+
+
+
+@Component
 public class RealPersonServiceImpl {
 
     private static Logger logger= LoggerFactory.getLogger(RealPersonServiceImpl.class);
+
 
 
     private RealPersonDao realPersonDao;
@@ -80,22 +84,33 @@ public class RealPersonServiceImpl {
 
 
 
-    public ResponseDto<RealPerson> findReal(@RequestParam String nationalCode) {
-       RealPersonDto realPersonDto = realPersonDao.findByNationalCode(nationalCode);
+    public ResponseDto<RealPerson> findReal(@RequestBody RealPerson realPerson) {
+       RealPerson realPersonDaoByNationalCode = realPersonDao.findByNationalCode(realPerson.getNationalCode());
         logger.info("startFindingRealService");
-        if (Objects.isNull(realPersonDto)) {
+        if (Objects.isNull(realPersonDaoByNationalCode)) {
             logger.error("real wasn't found");
             return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("not find"));
         }
         logger.info("endRealFindingService");
-        return new ResponseDto(ResponseStatus.Ok, realPersonDto, null, null);
+        return new ResponseDto(ResponseStatus.Ok, realPersonDaoByNationalCode, null, null);
     }
 
 
-    public ResponseDto<List<RealPersonDto>> findRealAll(@RequestBody RealPersonDto realPersonDto) {
+    public ResponseDto<List<RealPerson>> findRealAll(@RequestBody RealPerson realPerson) {
         logger.info("startFindingAllRealService");
-        List<RealPersonDto> result = realPersonDao.findByNameAndFamilyName(realPersonDto.getName(), realPersonDto.getFamilyName());
+        List<RealPerson> result = realPersonDao.findByNameAndFamilyName(realPerson.getName(), realPerson.getFamilyName());
+
         logger.info("endRealFindingAllService");
         return new ResponseDto(ResponseStatus.Ok, result, null, null);
     }
+
+
+    public ResponseDto<String> deleteRealAccount(@RequestBody RealPerson realPerson) {
+        logger.info("startLegalUpdateRestController");
+//        realPerson.getBankAccounts().get();
+        logger.info("endLegalUpdateRestController");
+        return new ResponseDto<>(ResponseStatus.Ok, null, "حساب مسدود شد", null);    }
+
+
+
 }

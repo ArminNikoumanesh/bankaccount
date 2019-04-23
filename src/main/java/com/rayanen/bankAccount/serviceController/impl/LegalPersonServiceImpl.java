@@ -1,5 +1,6 @@
 package com.rayanen.bankAccount.serviceController.impl;
 
+import com.rayanen.bankAccount.dto.LegalPersonDto;
 import com.rayanen.bankAccount.dto.ResponseDto;
 import com.rayanen.bankAccount.dto.ResponseException;
 import com.rayanen.bankAccount.dto.ResponseStatus;
@@ -79,18 +80,16 @@ public class LegalPersonServiceImpl {
     }
 
 
-    public ResponseDto<LegalPerson> findLegal(@RequestParam String companyCode) {
-       LegalPerson legalPerson= legalPersonDao.findByCompanyCode(companyCode);
+    public ResponseDto<LegalPerson> findLegal(@RequestBody LegalPerson legalPerson) {
+       LegalPerson legalPersonDaoByCompanyCode= legalPersonDao.findByCompanyCode(legalPerson.getCompanyCode());
 
         logger.info("startFindingLegalService");
-
-        if (Objects.isNull(legalPerson)) {
-
+        if (Objects.isNull(legalPersonDaoByCompanyCode)) {
             logger.error("not found legal");
             return new ResponseDto<>(ResponseStatus.Error, null, null, new ResponseException("شخصی با این مشخصات یافت نشد"));
         }
         logger.info("endFindingLegalService");
-        return new ResponseDto(ResponseStatus.Ok, legalPerson, null, null);
+        return new ResponseDto(ResponseStatus.Ok, legalPersonDaoByCompanyCode, null, null);
     }
 
 
@@ -100,5 +99,16 @@ public class LegalPersonServiceImpl {
         logger.info("endFindingAllLegalService");
         return new ResponseDto(ResponseStatus.Ok, result, null, null);
     }
+
+
+    public ResponseDto<String> deleteLegalAccount(@RequestBody LegalPerson legalPerson) {
+        logger.info("startLegalUpdateRestController");
+//       legalPerson.getBankAccounts().get();
+
+        logger.info("endLegalUpdateRestController");
+        return new ResponseDto<>(ResponseStatus.Ok, null, "حساب مسدود شد", null);    }
+
+
+
 
 }
