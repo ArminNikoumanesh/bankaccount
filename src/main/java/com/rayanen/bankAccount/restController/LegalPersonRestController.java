@@ -49,13 +49,19 @@ Facade facade ;
 
 
     @RequestMapping(value = "ws/findLegal", method = RequestMethod.POST)
-    public ResponseDto<LegalPerson> findLegal(@RequestBody LegalPersonDto legalPersonDto) throws Exception {
+    public ResponseDto<LegalPerson> findLegal(@RequestParam String companyCode) throws Exception {
         logger.info("startFindingLegalRestController");
-        facade.findLegal(legalPersonDto);
-        LegalPersonDto legalPersonDtoResponse= facade.findLegal(legalPersonDto);
+        facade.findLegal(companyCode);
+        LegalPersonDto legalPersonDto=facade.findLegal(companyCode);
         logger.info("endFindingLegalRestController");
-        return new ResponseDto(ResponseStatus.Ok,legalPersonDtoResponse, null, null);
+        return new ResponseDto(ResponseStatus.Ok,legalPersonDto, null, null);
     }
+
+
+
+
+
+
 
     @RequestMapping(value = "ws/findLegalAll", method = RequestMethod.POST)
     public ResponseDto<List<LegalPersonDto>> findLegalAll(@RequestBody LegalPersonDto legalPersonDto) throws Exception {

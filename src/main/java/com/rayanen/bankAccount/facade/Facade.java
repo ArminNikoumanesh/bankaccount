@@ -57,15 +57,19 @@ public class Facade {
 
 
     @Transactional(rollbackOn = Exception.class)
-    public LegalPersonDto findLegal( LegalPersonDto legalPersonDto) throws Exception {
-        logger.info("startFindingLegalFacade");
-        LegalPerson legalPerson = modelMapper.map(legalPersonDto, LegalPerson.class);
-        legalPersonService.findLegal(legalPerson);
-        LegalPerson legalPersonResponse=legalPersonService.findLegal(legalPerson);
-        LegalPersonDto legalPersonDtoResponse = modelMapper.map(legalPersonResponse, LegalPersonDto.class);
-        logger.info("endFindingLegalFacade");
-        return legalPersonDtoResponse;
+    public LegalPersonDto findLegal(String companyCode) throws Exception {
+
+        return modelMapper.map(legalPersonService.findByCompanyCode(companyCode), LegalPersonDto.class);
+
+//        logger.info("startFindingLegalFacade");
+//        logger.info("endFindingLegalFacade");
     }
+
+
+
+
+
+
 
 
     @Transactional(rollbackOn = Exception.class)
@@ -113,16 +117,13 @@ public class Facade {
 
     }
 
+
     @Transactional(rollbackOn = Exception.class)
-    public RealPersonDto findReal( RealPersonDto realPersonDto) throws Exception {
-        logger.info("startFindingRealFacade");
-        RealPerson realPerson = modelMapper.map(realPersonDto, RealPerson.class);
-        realPersonService.findReal(realPerson);
-        RealPerson realPersonResponse = realPersonService.findReal(realPerson);
-        RealPersonDto realPersonDtoResponse = modelMapper.map(realPersonResponse, RealPersonDto.class);
-        logger.info("endRealFindingFacade");
-        return realPersonDtoResponse;
+    public RealPersonDto findByNationalCode(String nationalCode) throws Exception {
+        return modelMapper.map(realPersonService.findByNationalCode(nationalCode), RealPersonDto.class);
     }
+
+
 
     @Transactional(rollbackOn = Exception.class)
     public List<RealPersonDto> findRealAll( RealPersonDto realPersonDto) throws Exception {

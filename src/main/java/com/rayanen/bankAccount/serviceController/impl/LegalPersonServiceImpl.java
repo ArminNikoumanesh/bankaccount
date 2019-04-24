@@ -47,10 +47,10 @@ public class LegalPersonServiceImpl {
     }
 
 
-    public LegalPerson findLegal( LegalPerson legalPerson) throws Exception {
-
+    public LegalPerson findByCompanyCode( String companyCode) throws Exception {
         logger.info("startFindingLegalService");
-         validationLegalPerson.legalFind(legalPerson);
+        validationLegalPerson.legalFind(companyCode);
+        LegalPerson legalPerson=legalPersonDao.findByCompanyCode(companyCode);
         logger.info("endFindingLegalService");
         return legalPerson;
     }

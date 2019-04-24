@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @Component
@@ -48,12 +49,10 @@ public class RealPersonServiceImpl {
 
 
 
-    public RealPerson findReal( RealPerson realPerson) throws Exception {
-        logger.info("startFindingRealService");
+    public RealPerson findByNationalCode(String nationalCode) throws Exception {
 
-         validationRealPerson.realFind(realPerson);
-
-        logger.info("endRealFindingService");
+        validationRealPerson.findByNationalCode(nationalCode);
+        RealPerson realPerson = realPersonDao.findByNationalCode(nationalCode);
         return realPerson;
     }
 
@@ -77,5 +76,7 @@ public class RealPersonServiceImpl {
 
 
     }
+
+
 
 }

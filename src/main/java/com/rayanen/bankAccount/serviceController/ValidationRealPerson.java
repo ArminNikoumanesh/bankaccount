@@ -61,19 +61,6 @@ public class ValidationRealPerson {
     }
 
 
-    public void realFind (RealPerson realPerson)throws Exception {
-        String error = "";
-        RealPerson realPersonDaoByNationalCode = realPersonDao.findByNationalCode(realPerson.getNationalCode());
-
-           if (Objects.isNull(realPersonDaoByNationalCode)) {
-
-               error += "کد ملی شخص مورد نظر موجود نمیباشد";
-    }
-        if(!error.equals(""))
-            throw  new Exception(error);
-
-    }
-
     public void realFindAll(RealPerson realPerson)throws Exception{
         String error = "";
         List<RealPerson> result = realPersonDao.findByNameAndFamilyName(realPerson.getName(), realPerson.getFamilyName());
@@ -96,5 +83,20 @@ public class ValidationRealPerson {
             throw  new Exception(error);
     }
 
+
+    public void findByNationalCode ( String  nationalCode)throws Exception {
+        String error = "";
+        RealPerson realPersonDaoByNationalCode = realPersonDao.findByNationalCode(nationalCode);
+
+
+            if (Objects.isNull(realPersonDaoByNationalCode)){
+
+
+            error += "کد ملی شخص مورد نظر موجود نمیباشد";
+        }
+        if(!error.equals(""))
+            throw  new Exception(error);
+
+    }
 
 }

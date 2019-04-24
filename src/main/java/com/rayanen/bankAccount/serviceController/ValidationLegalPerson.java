@@ -58,9 +58,9 @@ public class ValidationLegalPerson {
     }
 
 
-    public void legalFind (LegalPerson legalPerson)throws Exception {
+    public void legalFind (String companyCode)throws Exception {
         String error = "";
-        LegalPerson legalPersonDaoByCompanyCode= legalPersonDao.findByCompanyCode(legalPerson.getCompanyCode());
+        LegalPerson legalPersonDaoByCompanyCode= legalPersonDao.findByCompanyCode(companyCode);
 
         if (Objects.isNull(legalPersonDaoByCompanyCode)) {
             error+="کد ثبتی مورد نظر یافت نشد";

@@ -3,7 +3,7 @@
 
         <search label="کدثبتی:"
                 singleResultSearch="ws/findLegal"
-                singleResultSearchInputkey="code"
+                singleResultSearchInputkey="companyCode"
                 multiResultSearchAddress="ws/findLegalAll"
                 multiResultSearchInput="x"
                 selectedResultKey="companyCode"
