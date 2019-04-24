@@ -13,8 +13,14 @@ public class BankAccountDto {
     public BigDecimal inventory;
     private Integer version;
     //vaze hesab
-    private Boolean isActive=true;
+
     private List<TransactionDto> transactions;
+
+    private Boolean isActive;
+    public BankAccountDto() {
+        this.isActive=true;
+    }
+
 
 
 

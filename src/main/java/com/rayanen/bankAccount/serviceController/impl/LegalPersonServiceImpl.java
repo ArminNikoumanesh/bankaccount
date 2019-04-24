@@ -7,6 +7,7 @@ import com.rayanen.bankAccount.dto.ResponseStatus;
 import com.rayanen.bankAccount.model.dao.LegalPersonDao;
 import com.rayanen.bankAccount.model.entity.LegalPerson;
 import com.rayanen.bankAccount.restController.LegalPersonRestController;
+import com.rayanen.bankAccount.serviceController.ValidationLegalPerson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -20,84 +21,49 @@ public class LegalPersonServiceImpl {
     private static Logger logger= LoggerFactory.getLogger(LegalPersonRestController.class);
 
 
-
+    private ValidationLegalPerson validationLegalPerson;
     private LegalPersonDao legalPersonDao;
 
-    public LegalPersonServiceImpl(LegalPersonDao legalPersonDao) {
+    public LegalPersonServiceImpl(ValidationLegalPerson validationLegalPerson, LegalPersonDao legalPersonDao) {
+        this.validationLegalPerson = validationLegalPerson;
         this.legalPersonDao = legalPersonDao;
-
     }
 
 
 
-    public ResponseDto<String> saveLegal( @RequestBody LegalPerson legalPerson) {
+    public void saveLegal(LegalPerson legalPerson) throws Exception {
         logger.info("startSaveLegalService");
-        Boolean report = legalPersonDao.existsByCompanyCode(legalPerson.getCompanyCode());
-
-        if(!report) {
-            if ( Objects.isNull(legalPerson.getName()) || legalPerson.getName().length() < 2) {
-                logger.error("name save legal error");
-                return new ResponseDto<>(ResponseStatus.Error, null, null, new ResponseException("نام وارد شده صحیح نمی باشد"));
-            }
-            if ( Objects.isNull(legalPerson.getManeger()) || legalPerson.getManeger().length() < 2) {
-                logger.error("maneger save legal error");
-                return new ResponseDto<>(ResponseStatus.Error, null, null, new ResponseException("نام مدیر صحیح نمی باشد"));
-            }
-            if ( Objects.isNull(legalPerson.getCompanyCode()) || legalPerson.getCompanyCode().length() == 10 ) {
-                logger.error("CompanyCode save legal error");
-                return new ResponseDto<>(ResponseStatus.Error, null, null, new ResponseException("کدثبتی شرکت صحیح نمی باشد"));
-            }
-
-            logger.info("endSaveLegalService");
-        }else{
-            return new ResponseDto<>(ResponseStatus.Error, null, null, new ResponseException("کدثبتی شرکت موجود می باشد"));
-        }
-
-        return new ResponseDto<>(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
+        validationLegalPerson.saveLegalValidation(legalPerson);
+        legalPersonDao.save(legalPerson);
+        logger.info("endSaveLegalService");
     }
 
 
-    public ResponseDto<String> updateLegal(@RequestBody LegalPerson legalPerson) {
+    public void updateLegal( LegalPerson legalPerson) throws Exception {
         logger.info("startUpdateLegalService");
-        Boolean report = legalPersonDao.existsByCompanyCode(legalPerson.getCompanyCode());
-        if(report){
-            if ( Objects.isNull(legalPerson.getName()) || legalPerson.getName().length() < 2) {
-                logger.error("name error");
-                return new ResponseDto<>(ResponseStatus.Error, null, null, new ResponseException("نام وارد شده صحیح نمی باشد"));
-            }
-            if (Objects.isNull(legalPerson.getManeger()) || legalPerson.getManeger().length() < 2) {
-                logger.error("Maneger error");
-                return new ResponseDto<>(ResponseStatus.Error, null, null, new ResponseException("نام مدیر صحیح نمی باشد"));
-            }
-            if ( Objects.isNull(legalPerson.getCompanyCode()) || legalPerson.getCompanyCode().length()<10 || legalPerson.getCompanyCode().length()>10)  {
-                logger.error("CompanyCode error");
-                return new ResponseDto<>(ResponseStatus.Error, null, null, new ResponseException("کدثبتی شرکت صحیح نمی باشد"));
-            }
-            logger.info("endUpdateLegalService");
-            return new ResponseDto<>(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
-        }
-        return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("کد ثبتی شرکت مورد نظر را نمی توانید تغییر دهید."));
+       validationLegalPerson.updateLegalValidation(legalPerson);
+        logger.info("endUpdateLegalService");
+
     }
 
 
-    public ResponseDto<LegalPerson> findLegal(@RequestBody LegalPerson legalPerson) {
-       LegalPerson legalPersonDaoByCompanyCode= legalPersonDao.findByCompanyCode(legalPerson.getCompanyCode());
+    public LegalPerson findLegal( LegalPerson legalPerson) throws Exception {
 
         logger.info("startFindingLegalService");
-        if (Objects.isNull(legalPersonDaoByCompanyCode)) {
-            logger.error("not found legal");
-            return new ResponseDto<>(ResponseStatus.Error, null, null, new ResponseException("شخصی با این مشخصات یافت نشد"));
-        }
+         validationLegalPerson.legalFind(legalPerson);
         logger.info("endFindingLegalService");
-        return new ResponseDto(ResponseStatus.Ok, legalPersonDaoByCompanyCode, null, null);
+        return legalPerson;
     }
 
 
-    public ResponseDto<List<LegalPerson>> findLegalAll(@RequestBody LegalPerson legalPerson) {
+    public List<LegalPerson> findLegalAll( LegalPerson legalPerson) throws Exception {
         logger.info("startFindingAllLegalService");
+
+       validationLegalPerson.legalFindAll(legalPerson);
         List<LegalPerson> result = legalPersonDao.findByNameAndCompanyCode(legalPerson.getName(), legalPerson.getCompanyCode());
+
         logger.info("endFindingAllLegalService");
-        return new ResponseDto(ResponseStatus.Ok, result, null, null);
+        return result;
     }
 
 

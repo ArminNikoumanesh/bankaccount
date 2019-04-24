@@ -29,19 +29,17 @@ Facade facade ;
 
 
     @RequestMapping(value = "ws/saveLegal", method = RequestMethod.POST)
-    public ResponseDto<String> saveLegal(@Valid @RequestBody LegalPersonDto legalPersonDto) {
+    public ResponseDto<String> saveLegal(@Valid @RequestBody LegalPersonDto legalPersonDto) throws Exception {
         logger.info("startLegalSaveRestController");
         facade.saveLegal(legalPersonDto);
-        ResponseDto responseDto=facade.saveLegal(legalPersonDto);
-
         logger.info("endLegalSaveRestController");
-        return new ResponseDto<>(ResponseStatus.Ok, null, null, null);
+        return new ResponseDto<>(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
     }
 
 
 
     @RequestMapping(value = "ws/updateLegal", method = RequestMethod.POST)
-    public ResponseDto<String> updateLegal(@RequestBody LegalPersonDto legalPersonDto) {
+    public ResponseDto<String> updateLegal(@RequestBody LegalPersonDto legalPersonDto) throws Exception {
         logger.info("startLegalUpdateRestController");
         facade.updateLegal(legalPersonDto);
         logger.info("endLegalUpdateRestController");
@@ -51,23 +49,21 @@ Facade facade ;
 
 
     @RequestMapping(value = "ws/findLegal", method = RequestMethod.POST)
-    public ResponseDto<LegalPerson> findLegal(@RequestBody LegalPersonDto legalPersonDto) {
+    public ResponseDto<LegalPerson> findLegal(@RequestBody LegalPersonDto legalPersonDto) throws Exception {
         logger.info("startFindingLegalRestController");
-
         facade.findLegal(legalPersonDto);
-        ResponseDto responseDto= facade.findLegal(legalPersonDto);
+        LegalPersonDto legalPersonDtoResponse= facade.findLegal(legalPersonDto);
         logger.info("endFindingLegalRestController");
-        return new ResponseDto(ResponseStatus.Ok,responseDto, null, null);
+        return new ResponseDto(ResponseStatus.Ok,legalPersonDtoResponse, null, null);
     }
 
     @RequestMapping(value = "ws/findLegalAll", method = RequestMethod.POST)
-    public ResponseDto<List<LegalPersonDto>> findLegalAll(@RequestBody LegalPersonDto legalPersonDto) {
+    public ResponseDto<List<LegalPersonDto>> findLegalAll(@RequestBody LegalPersonDto legalPersonDto) throws Exception {
         logger.info("startFindingAllLegalRestController");
         facade.findLegalAll(legalPersonDto);
-        ResponseDto responseDto= facade.findLegal(legalPersonDto);
-
+        List<LegalPersonDto> legalPersonListDto= facade.findLegalAll(legalPersonDto);
         logger.info("endFindingLegalRestController");
-        return new ResponseDto(ResponseStatus.Ok, responseDto, null, null);
+        return new ResponseDto(ResponseStatus.Ok, legalPersonListDto, null, null);
 
     }
 

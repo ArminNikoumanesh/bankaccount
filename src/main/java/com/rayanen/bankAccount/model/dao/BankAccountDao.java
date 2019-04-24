@@ -10,6 +10,7 @@ public interface BankAccountDao extends JpaRepository<BankAccount, Integer> {
 
     BankAccount findBankAccountByAccountNumber(String accountNumber);
     boolean existsByAccountNumber(String accountNumber);
+    boolean existsByIsActive(Boolean isActive);
 
 //    boolean existsByActiveTypeIs();
 

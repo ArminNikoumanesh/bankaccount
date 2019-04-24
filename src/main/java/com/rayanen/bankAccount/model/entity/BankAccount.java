@@ -23,13 +23,15 @@ public  class BankAccount {
     @Version
     private Integer version;
 
-    //vaze hesab
-    private Boolean isActive=true;
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "ARN_BANKACCOUNT_TRANSACTIONS")
     private List<Transaction> transactions;
+    //vaze hesab
+    private Boolean isActive;
 
+    public BankAccount() {
+        this.isActive=true;
+    }
 
     public Boolean getActive() {
         return isActive;

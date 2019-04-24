@@ -4,6 +4,7 @@ package com.rayanen.bankAccount.restController;
 import com.rayanen.bankAccount.dto.*;
 import com.rayanen.bankAccount.dto.ResponseStatus;
 import com.rayanen.bankAccount.facade.Facade;
+import com.rayanen.bankAccount.model.entity.BankAccount;
 import com.rayanen.bankAccount.model.entity.RealPerson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,34 +40,35 @@ Facade facade;
         logger.info("startUpdateSaveRestController");
         facade.updateReal(realPersonDto);
             logger.info("endUpdateSaveRestController");
-            return new ResponseDto(ResponseStatus.Ok, null, "اطلاعات .", null);
+            return new ResponseDto(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
         }
 
 
     @RequestMapping(value = "ws/findReal", method = RequestMethod.POST)
-    public ResponseDto<RealPerson> findReal(@RequestBody RealPersonDto realPersonDto) {
+    public ResponseDto<RealPerson> findReal(@RequestBody RealPersonDto realPersonDto) throws Exception {
         logger.info("startFindRealRestController");
         facade.findReal(realPersonDto);
-        ResponseDto responseDto= facade.findReal(realPersonDto);
+        RealPersonDto realPersonDtoResponse=facade.findReal(realPersonDto);
         logger.info("endFindRealRestController");
-        return new ResponseDto(ResponseStatus.Ok, responseDto, null, null);
+        return new ResponseDto(ResponseStatus.Ok, realPersonDtoResponse, null, null);
     }
 
 
 
     @RequestMapping(value = "ws/findRealAll", method = RequestMethod.POST)
-    public ResponseDto<List<RealPersonDto>> findLegalAll(@RequestBody RealPersonDto realPersonDto) {
+    public ResponseDto<List<RealPersonDto>> findLegalAll(@RequestBody RealPersonDto realPersonDto) throws Exception {
         logger.info("startFindRealAllRestController");
         facade.findRealAll(realPersonDto);
-        ResponseDto responseDto=facade.findRealAll(realPersonDto);
+        List<RealPersonDto> realPersonListDto = facade.findRealAll(realPersonDto);
         logger.info("endFindRealAllRestController");
-        return new ResponseDto(ResponseStatus.Ok, responseDto, null, null);
+        return new ResponseDto(ResponseStatus.Ok, realPersonListDto, null, null);
     }
 
+
     @RequestMapping(value = "ws/deleteRealAccount", method = RequestMethod.POST)
-    public ResponseDto<String> deleteRealAccount(@RequestBody RealPersonDto realPersonDto) {
+    public ResponseDto<String> deleteRealAccount(@RequestBody BankAccountDto bankAccountDto) throws Exception {
         logger.info("startLegalUpdateRestController");
-       facade.deleteRealAccount(realPersonDto);
+        facade.deleteRealAccount(bankAccountDto);
         logger.info("endLegalUpdateRestController");
         return new ResponseDto<>(ResponseStatus.Ok, null, "حساب مسدود شد", null);    }
 

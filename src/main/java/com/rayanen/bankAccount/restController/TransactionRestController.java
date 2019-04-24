@@ -27,9 +27,9 @@ Facade facade;
 
     //variz
     @RequestMapping(value = "ws/decreaseTransaction", method = RequestMethod.POST)
-    public ResponseDto<Object> decreaseTransaction(@RequestBody TransactionDto transactionDto) {
+    public ResponseDto<Object> decreaseTransaction(@RequestBody TransactionDto transactionDto) throws Exception {
         logger.info("start depositTransaction");
-
+        facade.decreaseTransaction(transactionDto);
         logger.info("end depositTransaction");
         return new ResponseDto<>(ResponseStatus.Ok, null, "واریز وجه با موفقیت انجام شد.", null);
     }
@@ -48,7 +48,7 @@ Facade facade;
 
     //enteghal vajh
     @RequestMapping(value = "ws/transferTransaction", method = RequestMethod.POST)
-    public ResponseDto<Object> transferTransaction(@RequestBody TransactionDto transactionDto) {
+    public ResponseDto<Object> transferTransaction(@RequestBody TransactionDto transactionDto) throws Exception {
         logger.info("startTransferTransactionRest");
          decreaseTransaction(transactionDto);
          increaseTransaction(transactionDto);

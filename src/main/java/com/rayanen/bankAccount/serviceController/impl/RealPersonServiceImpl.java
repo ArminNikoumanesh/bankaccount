@@ -1,16 +1,17 @@
 package com.rayanen.bankAccount.serviceController.impl;
 
 import com.rayanen.bankAccount.dto.*;
+import com.rayanen.bankAccount.model.dao.BankAccountDao;
 import com.rayanen.bankAccount.model.dao.RealPersonDao;
+import com.rayanen.bankAccount.model.entity.BankAccount;
+import com.rayanen.bankAccount.model.entity.LegalPerson;
 import com.rayanen.bankAccount.model.entity.RealPerson;
-import com.rayanen.bankAccount.serviceController.Validetion;
+import com.rayanen.bankAccount.serviceController.ValidationRealPerson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
-import java.util.List;
-import java.util.Objects;
 
+import java.util.List;
 
 
 @Component
@@ -18,23 +19,19 @@ public class RealPersonServiceImpl {
 
     private static Logger logger= LoggerFactory.getLogger(RealPersonServiceImpl.class);
 
-
+    private BankAccountDao bankAccountDao;
     private RealPersonDao realPersonDao;
-    Validetion validetion;
-    public RealPersonServiceImpl(RealPersonDao realPersonDao,Validetion validetion) {
+    ValidationRealPerson validationRealPerson;
+
+    public RealPersonServiceImpl(BankAccountDao bankAccountDao, RealPersonDao realPersonDao, ValidationRealPerson validationRealPerson) {
+        this.bankAccountDao = bankAccountDao;
         this.realPersonDao = realPersonDao;
-        this.validetion = validetion;
+        this.validationRealPerson = validationRealPerson;
     }
-
-
-
-
 
     public void saveReal(RealPerson realPerson) throws Exception {
         logger.info("startRealSaveService");
-
-     validetion.RealValideton(realPerson);
-
+     validationRealPerson.RealValideton(realPerson);
             realPersonDao.save(realPerson);
 
             logger.info("endRealSaveService");
@@ -44,9 +41,7 @@ public class RealPersonServiceImpl {
 
     public void updateReal(RealPerson realPerson) throws Exception {
         logger.info("startUpdateUpdateService");
-
-           validetion.realUpdateValidation(realPerson);
-
+           validationRealPerson.realUpdateValidation(realPerson);
 
             logger.info("endUpdateUpdateService");
         }
@@ -54,33 +49,34 @@ public class RealPersonServiceImpl {
 
 
 
-    public ResponseDto<RealPerson> findReal(@RequestBody RealPerson realPerson) {
-       RealPerson realPersonDaoByNationalCode = realPersonDao.findByNationalCode(realPerson.getNationalCode());
+    public RealPerson findReal( RealPerson realPerson) throws Exception {
         logger.info("startFindingRealService");
-        if (Objects.isNull(realPersonDaoByNationalCode)) {
-            logger.error("real wasn't found");
-            return new ResponseDto(ResponseStatus.Error, null, null, new ResponseException("not find"));
-        }
+
+         validationRealPerson.realFind(realPerson);
+
         logger.info("endRealFindingService");
-        return new ResponseDto(ResponseStatus.Ok, realPersonDaoByNationalCode, null, null);
+        return realPerson;
     }
 
 
-    public ResponseDto<List<RealPerson>> findRealAll(@RequestBody RealPerson realPerson) {
+    public List<RealPerson> findRealAll( RealPerson realPerson)throws Exception {
         logger.info("startFindingAllRealService");
+        validationRealPerson.realFindAll(realPerson);
         List<RealPerson> result = realPersonDao.findByNameAndFamilyName(realPerson.getName(), realPerson.getFamilyName());
 
         logger.info("endRealFindingAllService");
-        return new ResponseDto(ResponseStatus.Ok, result, null, null);
+        return result;
     }
 
 
-    public ResponseDto<String> deleteRealAccount(@RequestBody RealPerson realPerson) {
+    public void deleteRealAccount( BankAccount bankAccount) throws Exception {
         logger.info("startLegalUpdateRestController");
-//        realPerson.getBankAccounts().get();
+        validationRealPerson.deleteRealAccount(bankAccount);
+        bankAccount.setActive(false);
+        bankAccountDao.save(bankAccount);
         logger.info("endLegalUpdateRestController");
-        return new ResponseDto<>(ResponseStatus.Ok, null, "حساب مسدود شد", null);    }
 
 
+    }
 
 }

@@ -21,4 +21,5 @@ public interface RealPersonDao extends JpaRepository<RealPerson, Integer> {
     boolean existsByNationalCode(String nationalCode);
 
 
+
 }

@@ -1,24 +1,28 @@
 package com.rayanen.bankAccount.serviceController;
 
 
+import com.rayanen.bankAccount.model.dao.BankAccountDao;
 import com.rayanen.bankAccount.model.dao.RealPersonDao;
+import com.rayanen.bankAccount.model.entity.BankAccount;
 import com.rayanen.bankAccount.model.entity.RealPerson;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Objects;
 
 
 
 @Component
-public class Validetion {
+public class ValidationRealPerson {
 
     RealPersonDao realPersonDao;
+    BankAccountDao bankAccountDao;
 
-
-    public Validetion(RealPersonDao realPersonDao) {
+    public ValidationRealPerson(RealPersonDao realPersonDao, BankAccountDao bankAccountDao) {
         this.realPersonDao = realPersonDao;
-
+        this.bankAccountDao = bankAccountDao;
     }
+
 
     public void RealValideton(RealPerson realPerson)throws Exception {
  String error = "";
@@ -55,5 +59,42 @@ public class Validetion {
         if(!error.equals(""))
             throw  new Exception(error);
     }
+
+
+    public void realFind (RealPerson realPerson)throws Exception {
+        String error = "";
+        RealPerson realPersonDaoByNationalCode = realPersonDao.findByNationalCode(realPerson.getNationalCode());
+
+           if (Objects.isNull(realPersonDaoByNationalCode)) {
+
+               error += "کد ملی شخص مورد نظر موجود نمیباشد";
+    }
+        if(!error.equals(""))
+            throw  new Exception(error);
+
+    }
+
+    public void realFindAll(RealPerson realPerson)throws Exception{
+        String error = "";
+        List<RealPerson> result = realPersonDao.findByNameAndFamilyName(realPerson.getName(), realPerson.getFamilyName());
+        if(Objects.isNull(result)){
+            error += "شخصی با این مشخصات یافت نشد";
+        }
+        if(!error.equals(""))
+            throw  new Exception(error);
+    }
+
+
+    public void deleteRealAccount(BankAccount bankAccount)throws Exception{
+        String error = "";
+
+        Boolean report=bankAccountDao.existsByAccountNumber(bankAccount.getAccountNumber());
+        if(!report){
+            error+="حسابی یافت نشد برای حذف";
+        }
+        if(!error.equals(""))
+            throw  new Exception(error);
+    }
+
 
 }

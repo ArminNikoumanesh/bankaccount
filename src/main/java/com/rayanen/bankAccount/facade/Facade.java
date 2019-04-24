@@ -2,12 +2,14 @@ package com.rayanen.bankAccount.facade;
 
 import com.rayanen.bankAccount.dto.*;
 
+import com.rayanen.bankAccount.model.entity.BankAccount;
 import com.rayanen.bankAccount.model.entity.LegalPerson;
 import com.rayanen.bankAccount.model.entity.RealPerson;
 import com.rayanen.bankAccount.model.entity.Transaction;
 import com.rayanen.bankAccount.restController.LegalPersonRestController;
 import com.rayanen.bankAccount.serviceController.impl.LegalPersonServiceImpl;
 import com.rayanen.bankAccount.serviceController.impl.RealPersonServiceImpl;
+import com.rayanen.bankAccount.serviceController.impl.TransationServiceImpl;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,60 +30,62 @@ public class Facade {
 
     RealPersonServiceImpl realPersonService;
     LegalPersonServiceImpl legalPersonService;
-    public Facade(RealPersonServiceImpl realPersonService, LegalPersonServiceImpl legalPersonService) {
+    TransationServiceImpl transationService;
+
+    public Facade(RealPersonServiceImpl realPersonService, LegalPersonServiceImpl legalPersonService, TransationServiceImpl transationService) {
         this.realPersonService = realPersonService;
         this.legalPersonService = legalPersonService;
+        this.transationService = transationService;
     }
 
     @Transactional(rollbackOn = Exception.class)
-    public ResponseDto<String> saveLegal(@RequestBody LegalPersonDto legalPersonDto) {
+    public void saveLegal( LegalPersonDto legalPersonDto) throws Exception {
         logger.info("startSaveLegalFacade");
         LegalPerson legalPerson = modelMapper.map(legalPersonDto, LegalPerson.class);
         legalPersonService.saveLegal(legalPerson);
-        ResponseDto responseDto=legalPersonService.saveLegal(legalPerson);
         logger.info("endSaveLegalFacade");
-        return new ResponseDto<>(ResponseStatus.Ok, null, responseDto.getNotificationMessage(), null);
     }
 
 
     @Transactional(rollbackOn = Exception.class)
-    public ResponseDto<String> updateLegal(@RequestBody LegalPersonDto legalPersonDto) {
+    public void updateLegal( LegalPersonDto legalPersonDto) throws Exception {
         logger.info("startUpdateLegalFacade");
-
         LegalPerson legalPerson = modelMapper.map(legalPersonDto, LegalPerson.class);
         legalPersonService.updateLegal(legalPerson);
-
         logger.info("endUpdateLegalFacade");
-        return new ResponseDto<>(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
     }
 
 
     @Transactional(rollbackOn = Exception.class)
-    public ResponseDto<LegalPerson> findLegal(@RequestBody LegalPersonDto legalPersonDto) {
+    public LegalPersonDto findLegal( LegalPersonDto legalPersonDto) throws Exception {
         logger.info("startFindingLegalFacade");
         LegalPerson legalPerson = modelMapper.map(legalPersonDto, LegalPerson.class);
         legalPersonService.findLegal(legalPerson);
-        ResponseDto responseDto = legalPersonService.findLegal(legalPerson);
-        LegalPersonDto legalPersonDtoResponse = modelMapper.map(responseDto, LegalPersonDto.class);
+        LegalPerson legalPersonResponse=legalPersonService.findLegal(legalPerson);
+        LegalPersonDto legalPersonDtoResponse = modelMapper.map(legalPersonResponse, LegalPersonDto.class);
         logger.info("endFindingLegalFacade");
-        return new ResponseDto(ResponseStatus.Ok, legalPersonDtoResponse, null, null);
+        return legalPersonDtoResponse;
     }
 
 
     @Transactional(rollbackOn = Exception.class)
-    public ResponseDto<List<LegalPersonDto>> findLegalAll(@RequestBody LegalPersonDto legalPersonDto) {
+    public List<LegalPersonDto> findLegalAll( LegalPersonDto legalPersonDto) throws Exception {
         logger.info("startFindingAllLegalFacade");
         LegalPerson legalPerson = modelMapper.map(legalPersonDto, LegalPerson.class);
         legalPersonService.findLegalAll(legalPerson);
-        ResponseDto responseDto = legalPersonService.findLegalAll(legalPerson);
-        LegalPersonDto legalPersonDtoResponse = modelMapper.map(responseDto.getResponseObject(), LegalPersonDto.class);
+        List<LegalPersonDto> legalPersonDtoListResponse=new ArrayList<>();
+        List<LegalPerson> legalPersonList = legalPersonService.findLegalAll(legalPerson);
+        for (LegalPerson person : legalPersonList) {
+            LegalPersonDto legalPersonDtoResponse = modelMapper.map(person, LegalPersonDto.class);
+            legalPersonDtoListResponse.add(legalPersonDtoResponse);
+        }
         logger.info("endFindingAllLegalFacade");
-        return new ResponseDto(ResponseStatus.Ok, legalPersonDtoResponse, null, null);
+        return legalPersonDtoListResponse;
     }
 
 
     @Transactional(rollbackOn = Exception.class)
-    public ResponseDto<String> deleteLegalAccount(@RequestBody LegalPersonDto legalPersonDto) {
+    public ResponseDto<String> deleteLegalAccount( LegalPersonDto legalPersonDto) {
         logger.info("startLegalUpdateRestController");
         LegalPerson legalPerson = modelMapper.map(legalPersonDto, LegalPerson.class);
         legalPersonService.deleteLegalAccount(legalPerson);
@@ -90,86 +95,88 @@ public class Facade {
 
 
     @Transactional(rollbackOn = Exception.class)
-    public ResponseDto<String> saveReal(@RequestBody RealPersonDto realPersonDto) throws Exception {
+    public void saveReal( RealPersonDto realPersonDto) throws Exception {
         logger.info("startRealSaveFacade");
-
         RealPerson realPerson = modelMapper.map(realPersonDto, RealPerson.class);
         realPersonService.saveReal(realPerson);
-
         logger.info("endRealSaveFacade");
-        return new ResponseDto(ResponseStatus.Ok, null, "oo.", null);
+
     }
 
 
     @Transactional(rollbackOn = Exception.class)
-    public ResponseDto<String> updateReal(@RequestBody RealPersonDto realPersonDto) throws Exception {
+    public void updateReal( RealPersonDto realPersonDto) throws Exception {
         logger.info("startUpdateRealFacade");
         RealPerson realPerson = modelMapper.map(realPersonDto, RealPerson.class);
         realPersonService.updateReal(realPerson);
         logger.info("endUpdateRealFacade");
-        return new ResponseDto(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
+
     }
 
     @Transactional(rollbackOn = Exception.class)
-    public ResponseDto<RealPerson> findReal(@RequestBody RealPersonDto realPersonDto) {
+    public RealPersonDto findReal( RealPersonDto realPersonDto) throws Exception {
         logger.info("startFindingRealFacade");
         RealPerson realPerson = modelMapper.map(realPersonDto, RealPerson.class);
         realPersonService.findReal(realPerson);
-        ResponseDto responseDto = realPersonService.findReal(realPerson);
-        RealPersonDto realPersonDtoResponse = modelMapper.map(responseDto.getResponseObject(), RealPersonDto.class);
+        RealPerson realPersonResponse = realPersonService.findReal(realPerson);
+        RealPersonDto realPersonDtoResponse = modelMapper.map(realPersonResponse, RealPersonDto.class);
         logger.info("endRealFindingFacade");
-        return new ResponseDto(ResponseStatus.Ok, realPersonDtoResponse, null, null);
+        return realPersonDtoResponse;
     }
 
     @Transactional(rollbackOn = Exception.class)
-    public ResponseDto<List<RealPersonDto>> findRealAll(@RequestBody RealPersonDto realPersonDto) {
+    public List<RealPersonDto> findRealAll( RealPersonDto realPersonDto) throws Exception {
         logger.info("startFindingRealFacade");
         RealPerson realPerson = modelMapper.map(realPersonDto, RealPerson.class);
         realPersonService.findRealAll(realPerson);
-        ResponseDto responseDto = realPersonService.findRealAll(realPerson);
-        RealPersonDto realPersonDtoResponse = modelMapper.map(responseDto.getResponseObject(), RealPersonDto.class);
+        List<RealPersonDto> realPersonListResponse = new ArrayList<>();
+        List<RealPerson> realPersonList = realPersonService.findRealAll(realPerson);
+        for (RealPerson person : realPersonList) {
+            RealPersonDto realPersonDtoResponse = modelMapper.map(person, RealPersonDto.class);
+            realPersonListResponse.add(realPersonDtoResponse);
+
+        }
         logger.info("endRealFindingFacade");
-        return new ResponseDto(ResponseStatus.Ok, realPersonDtoResponse, null, null);
+        return realPersonListResponse;
     }
 
     @Transactional(rollbackOn = Exception.class)
-    public ResponseDto<String> deleteRealAccount(@RequestBody RealPersonDto realPersonDto) {
+    public void deleteRealAccount( BankAccountDto bankAccountDto) throws Exception {
         logger.info("startLegalUpdateRestController");
-        RealPerson realPerson = modelMapper.map(realPersonDto, RealPerson.class);
-        realPersonService.deleteRealAccount(realPerson);
+        BankAccount bankAccount = modelMapper.map(bankAccountDto, BankAccount.class);
+        realPersonService.deleteRealAccount(bankAccount);
         logger.info("endLegalUpdateRestController");
-        return new ResponseDto<>(ResponseStatus.Ok, null, "حساب مسدود شد", null);
     }
 
 
-    public ResponseDto<Object> decreaseTransaction(@RequestBody Transaction transaction) {
+
+
+
+    public void decreaseTransaction( TransactionDto transactionDto) throws Exception {
         logger.info("startDepositTransactionFacade");
-
-
+         Transaction transaction=modelMapper.map(transactionDto,Transaction.class);
+         transationService.decreaseTransaction(transaction);
         logger.info("endDepositTransactionFacade");
-        return new ResponseDto<>(ResponseStatus.Ok, null, "واریز وجه با موفقیت انجام شد.", null);
     }
 
     //bardasht
 
-    public ResponseDto<Object> increaseTransaction(@RequestBody Transaction transaction) {
+
+    public void increaseTransaction( TransactionDto transactionDto) throws Exception {
         logger.info("startIncreaseTransactionFacade");
-
-
-        return new ResponseDto<>(ResponseStatus.Ok, null, "برداشت با موفقیت انجام شد.", null);
+        Transaction transaction=modelMapper.map(transactionDto,Transaction.class);
+        transationService.increaseTransaction(transaction);
 
     }
 
 
     //enteghal vajh
 
-    public ResponseDto<Object> transferTransaction(@RequestBody Transaction transaction) {
+    public void transferTransaction( TransactionDto transactionDto)throws Exception {
         logger.info("startTransferTransactionFacade");
-        decreaseTransaction(transaction);
-        increaseTransaction(transaction);
+        Transaction transaction=modelMapper.map(transactionDto,Transaction.class);
+        transationService.transferTransaction(transaction);
         logger.info("endTransferTransactionFacade");
-        return new ResponseDto<>(ResponseStatus.Ok, null, "انتقال وجه با موفقیت انجام شد.", null);
-
 
     }
 
