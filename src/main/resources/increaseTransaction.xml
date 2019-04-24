@@ -1,13 +1,8 @@
 <?xml version="1.0"?>
 <page title="برداشت وجه">
-    <search label="شماره حساب:"
-            singleResultSearch="ws/test2"
-            singleResultSearchInputkey="accountNumber"
-            value="obj">
-    </search>
+
     <section title="مشخصات مشتری">
-        <input label="نام :" type="text" value="obj.name" disable="true"/>
-        <input label="موجودی:" type="text" value="obj.inventory" disable="true"/>
+        <input label="شماره حساب" type="text" value="payerAccountNumber"/>
         <input label="مبلغ:" type="text" value="obj.amount" />
     </section>
     <actions>

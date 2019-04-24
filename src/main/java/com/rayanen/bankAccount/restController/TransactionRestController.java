@@ -36,10 +36,9 @@ Facade facade;
 
     //bardasht
     @RequestMapping(value = "ws/increaseTransaction", method = RequestMethod.POST)
-    public ResponseDto<Object> increaseTransaction(@RequestBody TransactionDto transactionDto) {
-
+    public ResponseDto<Object> increaseTransaction(@RequestBody TransactionDto transactionDto) throws Exception {
         logger.info("startIncreaseTransactionRest");
-
+        facade.increaseTransaction(transactionDto);
             logger.info("endIncreaseTransactionRest");
             return new ResponseDto<>(ResponseStatus.Ok, null, "برداشت با موفقیت انجام شد.", null);
     }

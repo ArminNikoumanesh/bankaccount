@@ -19,17 +19,17 @@ public class ValidationTransaction {
         this.bankAccountDao = bankAccountDao;
     }
 
-    public void decreaseTransaction(Transaction transaction) throws Exception {
+    public void increaseTransaction (Transaction transaction) throws Exception {
         String error="";
-        Boolean report = bankAccountDao.existsByAccountNumber(transaction.getPayeeAccountNumber());
-        if (report ) {
-            BankAccount account = bankAccountDao.findBankAccountByAccountNumber(transaction.getPayeeAccountNumber());
+        boolean report = bankAccountDao.existsByAccountNumber(transaction.getPayerAccountNumber());
+        if (!report) {
+            BankAccount account = bankAccountDao.findBankAccountByAccountNumber(transaction.getPayerAccountNumber());
             boolean active=bankAccountDao.existsByIsActive(account.getActive());
             if(!active){
                 error+="حساب مسدود است";
             }
         }else {
-            error += "حسابی یافت نشد برای واریز";
+            error += "حسابی یافت نشد برای برداشت";
         }
 
 
@@ -37,11 +37,12 @@ public class ValidationTransaction {
             throw  new Exception(error);
     }
 
-    public void increaseTransaction(Transaction transaction) throws Exception {
+
+    public void decreaseTransaction (Transaction transaction) throws Exception {
         String error="";
-        Boolean report = bankAccountDao.existsByAccountNumber(transaction.getPayeeAccountNumber());
+        boolean report = bankAccountDao.existsByAccountNumber(transaction.getPayeeAccountNumber());
         if (report) {
-            BankAccount account = bankAccountDao.findBankAccountByAccountNumber(transaction.getPayerAccountNumber());
+            BankAccount account = bankAccountDao.findBankAccountByAccountNumber(transaction.getPayeeAccountNumber());
             boolean active=bankAccountDao.existsByIsActive(account.getActive());
             if(!active){
                  error+="حساب مسدود است";
@@ -51,7 +52,7 @@ public class ValidationTransaction {
             }
 
         }else {
-            error += "حسابی یافت نشد برای واریز";
+            error += "حسابی یافت نشد برای برداشت";
         }
 
         if(!error.equals(""))
