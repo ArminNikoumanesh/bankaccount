@@ -25,7 +25,7 @@ public abstract class Customer  {
 
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "ARN_CUSTOMER_NUMBER")
+
     private List<Number> numbers;
 
     @CreatedDate
@@ -38,7 +38,7 @@ public abstract class Customer  {
 
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "ARN_CUSTOMER_BANKACCOUNTLIST")
+
     private List<BankAccount> bankAccounts;
 
 

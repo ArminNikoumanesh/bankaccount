@@ -4,7 +4,6 @@ package com.rayanen.bankAccount.restController;
 import com.rayanen.bankAccount.dto.*;
 import com.rayanen.bankAccount.dto.ResponseStatus;
 import com.rayanen.bankAccount.facade.Facade;
-import com.rayanen.bankAccount.model.entity.BankAccount;
 import com.rayanen.bankAccount.model.entity.RealPerson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

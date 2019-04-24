@@ -31,9 +31,8 @@ public class RealPersonServiceImpl {
 
     public void saveReal(RealPerson realPerson) throws Exception {
         logger.info("startRealSaveService");
-     validationRealPerson.RealValideton(realPerson);
+        validationRealPerson.RealValidation(realPerson);
             realPersonDao.save(realPerson);
-
             logger.info("endRealSaveService");
 
     }

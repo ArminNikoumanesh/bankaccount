@@ -24,9 +24,9 @@ public class ValidationRealPerson {
     }
 
 
-    public void RealValideton(RealPerson realPerson)throws Exception {
+    public void RealValidation(RealPerson realPerson)throws Exception {
  String error = "";
-        Boolean report = realPersonDao.existsByNationalCode(realPerson.getNationalCode());
+        boolean report = realPersonDao.existsByNationalCode(realPerson.getNationalCode());
 
         if (!report) {
             if (Objects.isNull(realPerson.getName()) || realPerson.getName().length() < 2)
@@ -49,7 +49,7 @@ public class ValidationRealPerson {
 
     public void realUpdateValidation(RealPerson realPerson)throws Exception{
         String error = "";
-        Boolean report = realPersonDao.existsByNationalCode(realPerson.getNationalCode());
+        boolean report = realPersonDao.existsByNationalCode(realPerson.getNationalCode());
 
         if(!report) {
 
@@ -88,7 +88,7 @@ public class ValidationRealPerson {
     public void deleteRealAccount(BankAccount bankAccount)throws Exception{
         String error = "";
 
-        Boolean report=bankAccountDao.existsByAccountNumber(bankAccount.getAccountNumber());
+        boolean report=bankAccountDao.existsByAccountNumber(bankAccount.getAccountNumber());
         if(!report){
             error+="حسابی یافت نشد برای حذف";
         }

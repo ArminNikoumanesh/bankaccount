@@ -11,9 +11,9 @@ public class BankAccountDto {
     private AccountTypeDto accountTypes;
     //mojody
     public BigDecimal inventory;
+
     private Integer version;
     //vaze hesab
-
     private List<TransactionDto> transactions;
 
     private Boolean isActive;
