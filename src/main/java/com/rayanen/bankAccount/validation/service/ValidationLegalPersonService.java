@@ -1,4 +1,4 @@
-package com.rayanen.bankAccount.serviceController;
+package com.rayanen.bankAccount.validation.service;
 
 
 import com.rayanen.bankAccount.model.dao.LegalPersonDao;
@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-public class ValidationLegalPerson {
+public class ValidationLegalPersonService {
 
     LegalPersonDao legalPersonDao;
 
-    public ValidationLegalPerson(LegalPersonDao legalPersonDao) {
+    public ValidationLegalPersonService(LegalPersonDao legalPersonDao) {
         this.legalPersonDao = legalPersonDao;
     }
 

@@ -1,4 +1,4 @@
-package com.rayanen.bankAccount.serviceController;
+package com.rayanen.bankAccount.validation.service;
 
 
 import com.rayanen.bankAccount.model.dao.BankAccountDao;
@@ -10,23 +10,26 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class ValidationTransaction {
+public class ValidationTransactionService {
 
 
     BankAccountDao bankAccountDao;
 
-    public ValidationTransaction(BankAccountDao bankAccountDao) {
+    public ValidationTransactionService(BankAccountDao bankAccountDao) {
         this.bankAccountDao = bankAccountDao;
     }
 
     public void increaseTransaction (Transaction transaction) throws Exception {
         String error="";
-        boolean report = bankAccountDao.existsByAccountNumber(transaction.getPayerAccountNumber());
-        if (!report) {
-            BankAccount account = bankAccountDao.findBankAccountByAccountNumber(transaction.getPayerAccountNumber());
+        boolean report = bankAccountDao.existsByAccountNumber(transaction.getIncreaserAccountNumber());
+        if (report) {
+            BankAccount account = bankAccountDao.findBankAccountByAccountNumber(transaction.getIncreaserAccountNumber());
             boolean active=bankAccountDao.existsByIsActive(account.getActive());
             if(!active){
                 error+="حساب مسدود است";
+            }else if (account.getInventory().compareTo(transaction.getAmount())<0 ){
+
+                error+="موجودی کافی نیست";
             }
         }else {
             error += "حسابی یافت نشد برای برداشت";
@@ -40,15 +43,13 @@ public class ValidationTransaction {
 
     public void decreaseTransaction (Transaction transaction) throws Exception {
         String error="";
-        boolean report = bankAccountDao.existsByAccountNumber(transaction.getPayeeAccountNumber());
+        boolean report = bankAccountDao.existsByAccountNumber(transaction.getDecreaserAccountNumber());
         if (report) {
-            BankAccount account = bankAccountDao.findBankAccountByAccountNumber(transaction.getPayeeAccountNumber());
+            BankAccount account = bankAccountDao.findBankAccountByAccountNumber(transaction.getDecreaserAccountNumber());
             boolean active=bankAccountDao.existsByIsActive(account.getActive());
             if(!active){
-                 error+="حساب مسدود است";
-            }else if (account.getInventory().compareTo(transaction.getAmount())>0 ){
 
-                error+="موجودی کافی نیست";
+                 error+="حساب مسدود است";
             }
 
         }else {

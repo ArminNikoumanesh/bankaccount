@@ -5,6 +5,7 @@ import com.rayanen.bankAccount.dto.*;
 import com.rayanen.bankAccount.dto.ResponseStatus;
 import com.rayanen.bankAccount.facade.Facade;
 import com.rayanen.bankAccount.model.entity.RealPerson;
+import com.rayanen.bankAccount.validation.rest.ValidationRealPersonRest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -17,17 +18,20 @@ public class RealPersonRestController {
 
     private static Logger logger = LoggerFactory.getLogger(RealPersonRestController.class);
 
-
-    Facade facade;
-
-    public RealPersonRestController(Facade facade) {
+    public RealPersonRestController(ValidationRealPersonRest validationRealPersonRest, Facade facade) {
+        this.validationRealPersonRest = validationRealPersonRest;
         this.facade = facade;
     }
+
+    ValidationRealPersonRest validationRealPersonRest;
+    Facade facade;
+
 
 
     @RequestMapping(value = "ws/saveReal", method = RequestMethod.POST)
     public ResponseDto<String> saveReal(@RequestBody RealPersonDto realPersonDto) throws Exception {
         logger.info("startRealSaveRestController");
+        validationRealPersonRest.RealValidation(realPersonDto);
         facade.saveReal(realPersonDto);
         logger.info("endRealSaveRestController");
         return new ResponseDto(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
@@ -37,6 +41,7 @@ public class RealPersonRestController {
     @RequestMapping(value = "ws/updateReal", method = RequestMethod.POST)
     public ResponseDto<String> updateReal(@RequestBody RealPersonDto realPersonDto) throws Exception {
         logger.info("startUpdateSaveRestController");
+        validationRealPersonRest.RealValidation(realPersonDto);
         facade.updateReal(realPersonDto);
         logger.info("endUpdateSaveRestController");
         return new ResponseDto(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);

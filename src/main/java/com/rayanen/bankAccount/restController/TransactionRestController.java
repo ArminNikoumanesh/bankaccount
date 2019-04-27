@@ -49,18 +49,14 @@ Facade facade;
     @RequestMapping(value = "ws/transferTransaction", method = RequestMethod.POST)
     public ResponseDto<Object> transferTransaction(@RequestBody TransactionDto transactionDto) throws Exception {
         logger.info("startTransferTransactionRest");
+        increaseTransaction(transactionDto);
          decreaseTransaction(transactionDto);
-         increaseTransaction(transactionDto);
         logger.info("endTransferTransactionRest");
         return new ResponseDto<>(ResponseStatus.Ok, null, "انتقال وجه با موفقیت انجام شد.", null);
 
 
     }
 
-
-//    private void sodem(){
-//
-//    }
 
 
 

@@ -15,10 +15,12 @@ public class Transaction {
     @Id
     @GeneratedValue
     private Long id;
-   //ferstande
-    private String payerAccountNumber;
+    //ferstande
+    private String increaserAccountNumber;
     //girande
-    private String payeeAccountNumber;
+    private String decreaserAccountNumber;
+
+
     @CreatedDate
     private Date transactionDate;
 
@@ -38,6 +40,22 @@ public class Transaction {
 
     public void setInventoryAfterTransaction(BigDecimal inventoryAfterTransaction) {
         this.inventoryAfterTransaction = inventoryAfterTransaction;
+    }
+
+    public String getIncreaserAccountNumber() {
+        return increaserAccountNumber;
+    }
+
+    public void setIncreaserAccountNumber(String increaserAccountNumber) {
+        this.increaserAccountNumber = increaserAccountNumber;
+    }
+
+    public String getDecreaserAccountNumber() {
+        return decreaserAccountNumber;
+    }
+
+    public void setDecreaserAccountNumber(String decreaserAccountNumber) {
+        this.decreaserAccountNumber = decreaserAccountNumber;
     }
 
     public Long getVersion() {
@@ -64,21 +82,6 @@ public class Transaction {
         this.id = id;
     }
 
-    public String getPayerAccountNumber() {
-        return payerAccountNumber;
-    }
-
-    public void setPayerAccountNumber(String payerAccountNumber) {
-        this.payerAccountNumber = payerAccountNumber;
-    }
-
-    public String getPayeeAccountNumber() {
-        return payeeAccountNumber;
-    }
-
-    public void setPayeeAccountNumber(String payeeAccountNumber) {
-        this.payeeAccountNumber = payeeAccountNumber;
-    }
 
     public Date getTransactionDate() {
         return transactionDate;

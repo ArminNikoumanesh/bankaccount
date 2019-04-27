@@ -1,38 +1,39 @@
 package com.rayanen.bankAccount.serviceController.impl;
 
-import com.rayanen.bankAccount.dto.*;
 import com.rayanen.bankAccount.model.dao.BankAccountDao;
 import com.rayanen.bankAccount.model.dao.RealPersonDao;
 import com.rayanen.bankAccount.model.entity.BankAccount;
-import com.rayanen.bankAccount.model.entity.LegalPerson;
 import com.rayanen.bankAccount.model.entity.RealPerson;
-import com.rayanen.bankAccount.serviceController.ValidationRealPerson;
+import com.rayanen.bankAccount.serviceController.RealPersonService;
+import com.rayanen.bankAccount.validation.service.ValidationRealPersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 
-@Component
-public class RealPersonServiceImpl {
+
+@Service
+public class RealPersonServiceImpl implements RealPersonService {
 
     private static Logger logger= LoggerFactory.getLogger(RealPersonServiceImpl.class);
 
     private BankAccountDao bankAccountDao;
     private RealPersonDao realPersonDao;
-    ValidationRealPerson validationRealPerson;
+    ValidationRealPersonService validationRealPersonService;
 
-    public RealPersonServiceImpl(BankAccountDao bankAccountDao, RealPersonDao realPersonDao, ValidationRealPerson validationRealPerson) {
+    public RealPersonServiceImpl(BankAccountDao bankAccountDao, RealPersonDao realPersonDao, ValidationRealPersonService validationRealPersonService) {
         this.bankAccountDao = bankAccountDao;
         this.realPersonDao = realPersonDao;
-        this.validationRealPerson = validationRealPerson;
+        this.validationRealPersonService = validationRealPersonService;
     }
+
+
 
     public void saveReal(RealPerson realPerson) throws Exception {
         logger.info("startRealSaveService");
-        validationRealPerson.RealValidation(realPerson);
+        validationRealPersonService.RealValidation(realPerson);
             realPersonDao.save(realPerson);
             logger.info("endRealSaveService");
 
@@ -41,7 +42,7 @@ public class RealPersonServiceImpl {
 
     public void updateReal(RealPerson realPerson) throws Exception {
         logger.info("startUpdateUpdateService");
-           validationRealPerson.realUpdateValidation(realPerson);
+           validationRealPersonService.realUpdateValidation(realPerson);
 
             logger.info("endUpdateUpdateService");
         }
@@ -51,7 +52,7 @@ public class RealPersonServiceImpl {
 
     public RealPerson findByNationalCode(String nationalCode) throws Exception {
 
-        validationRealPerson.findByNationalCode(nationalCode);
+        validationRealPersonService.findByNationalCode(nationalCode);
         RealPerson realPerson = realPersonDao.findByNationalCode(nationalCode);
         return realPerson;
     }
@@ -59,7 +60,7 @@ public class RealPersonServiceImpl {
 
     public List<RealPerson> findRealAll( RealPerson realPerson)throws Exception {
         logger.info("startFindingAllRealService");
-        validationRealPerson.realFindAll(realPerson);
+        validationRealPersonService.realFindAll(realPerson);
         List<RealPerson> result = realPersonDao.findByNameAndFamilyName(realPerson.getName(), realPerson.getFamilyName());
 
         logger.info("endRealFindingAllService");
@@ -69,7 +70,7 @@ public class RealPersonServiceImpl {
 
     public void deleteRealAccount( BankAccount bankAccount) throws Exception {
         logger.info("startLegalUpdateRestController");
-        validationRealPerson.deleteRealAccount(bankAccount);
+        validationRealPersonService.deleteRealAccount(bankAccount);
         bankAccount.setActive(false);
         bankAccountDao.save(bankAccount);
         logger.info("endLegalUpdateRestController");

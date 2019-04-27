@@ -1,25 +1,15 @@
 <?xml version="1.0"?>
 <page title="انتقال وجه">
-    <search label="شماره حساب:"
-            singleResultSearch="ws/test2"
-            singleResultSearchInputkey="accountNumber"
-            value="obj">
-    </search>
-    <section title="مشخصات مشتری">
-        <input label="نام :" type="text" value="obj.name" disable="true"/>
-        <input label="موجودی:" type="text" value="obj.inventory" disable="true"/>
-        <input label="مبلغ:" type="text" value="obj.amount" />
-    </section>
 
-    <search label="به شماره حساب:"
-            singleResultSearch="ws/depositTransaction"
-            singleResultSearchInputkey="accountNumber"
-            value="obj">
-    </search>
-    <section title="مشخصات مشتری">
-        <input label="نام :" type="text" value="obj.name" disable="true"/>
-        <input label="موجودی:" type="text" value="obj.inventory" disable="true"/>
-    </section>
+        <section title="برداشت از حساب">
+            <input label="شماره حساب" type="text" value="obj.increaserAccountNumber"/>
+            <input label="مبلغ:" type="text" value="obj.amount" />
+        </section>
+
+        <section title="واریز به حساب">
+            <input label="شماره حساب" type="text" value="obj.decreaserAccountNumber"/>
+
+        </section>
     <actions>
         <button label="انتقال">
             <webService address="ws/transferTransaction" clearPageOnSuccess="true">

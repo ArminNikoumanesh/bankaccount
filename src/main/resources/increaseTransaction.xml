@@ -2,7 +2,7 @@
 <page title="برداشت وجه">
 
     <section title="مشخصات مشتری">
-        <input label="شماره حساب" type="text" value="payerAccountNumber"/>
+        <input label="شماره حساب" type="text" value="obj.increaserAccountNumber"/>
         <input label="مبلغ:" type="text" value="obj.amount" />
     </section>
     <actions>

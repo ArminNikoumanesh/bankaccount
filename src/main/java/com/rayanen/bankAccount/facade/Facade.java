@@ -9,12 +9,11 @@ import com.rayanen.bankAccount.model.entity.Transaction;
 import com.rayanen.bankAccount.restController.LegalPersonRestController;
 import com.rayanen.bankAccount.serviceController.impl.LegalPersonServiceImpl;
 import com.rayanen.bankAccount.serviceController.impl.RealPersonServiceImpl;
-import com.rayanen.bankAccount.serviceController.impl.TransationServiceImpl;
+import com.rayanen.bankAccount.serviceController.impl.TransactionServiceImpl;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -30,12 +29,12 @@ public class Facade {
 
     RealPersonServiceImpl realPersonService;
     LegalPersonServiceImpl legalPersonService;
-    TransationServiceImpl transationService;
+    TransactionServiceImpl transactionService;
 
-    public Facade(RealPersonServiceImpl realPersonService, LegalPersonServiceImpl legalPersonService, TransationServiceImpl transationService) {
+    public Facade(RealPersonServiceImpl realPersonService, LegalPersonServiceImpl legalPersonService, TransactionServiceImpl transactionService) {
         this.realPersonService = realPersonService;
         this.legalPersonService = legalPersonService;
-        this.transationService = transationService;
+        this.transactionService = transactionService;
     }
 
     @Transactional(rollbackOn = Exception.class)
@@ -58,15 +57,10 @@ public class Facade {
 
     @Transactional(rollbackOn = Exception.class)
     public LegalPersonDto findLegal(String companyCode) throws Exception {
-
+       logger.info("FindingLegalFacade");
         return modelMapper.map(legalPersonService.findByCompanyCode(companyCode), LegalPersonDto.class);
 
-//        logger.info("startFindingLegalFacade");
-//        logger.info("endFindingLegalFacade");
     }
-
-
-
 
 
 
@@ -152,31 +146,31 @@ public class Facade {
 
 
 
-
+    @Transactional(rollbackOn = Exception.class)
     public void decreaseTransaction( TransactionDto transactionDto) throws Exception {
         logger.info("startDepositTransactionFacade");
          Transaction transaction=modelMapper.map(transactionDto,Transaction.class);
-         transationService.decreaseTransaction(transaction);
+         transactionService.decreaseTransaction(transaction);
         logger.info("endDepositTransactionFacade");
     }
 
     //bardasht
 
-
+    @Transactional(rollbackOn = Exception.class)
     public void increaseTransaction( TransactionDto transactionDto) throws Exception {
         logger.info("startIncreaseTransactionFacade");
         Transaction transaction=modelMapper.map(transactionDto,Transaction.class);
-        transationService.increaseTransaction(transaction);
+        transactionService.increaseTransaction(transaction);
 
     }
 
 
     //enteghal vajh
-
+    @Transactional(rollbackOn = Exception.class)
     public void transferTransaction( TransactionDto transactionDto)throws Exception {
         logger.info("startTransferTransactionFacade");
         Transaction transaction=modelMapper.map(transactionDto,Transaction.class);
-        transationService.transferTransaction(transaction);
+        transactionService.transferTransaction(transaction);
         logger.info("endTransferTransactionFacade");
 
     }
