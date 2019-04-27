@@ -3,6 +3,7 @@ package com.rayanen.bankAccount.model.dao;
 import com.rayanen.bankAccount.model.entity.BankAccount;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -13,7 +14,9 @@ public interface BankAccountDao extends JpaRepository<BankAccount, Integer> {
     boolean existsByAccountNumber(String accountNumber);
     boolean existsByIsActive(Boolean isActive);
 
-   List <BankAccount> findBankAccountByAccountNumber();
+
+@Query("SELECT B FROM BankAccount B ")
+  List <BankAccount> findByAccountNumber();
 
 //    boolean existsByActiveTypeIs();
 
