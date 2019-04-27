@@ -24,15 +24,6 @@ public class TransactionDto {
 
 
 
-    private  BigDecimal min;
-
-    public BigDecimal getMin() {
-        return min;
-    }
-
-    public void setMin(BigDecimal min) {
-        this.min = min;
-    }
 
 
 

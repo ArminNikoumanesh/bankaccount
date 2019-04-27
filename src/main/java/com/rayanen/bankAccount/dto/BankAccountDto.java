@@ -24,6 +24,8 @@ public class BankAccountDto {
 
 
 
+
+
     public Boolean getActive() { return isActive; }
 
     public void setActive(Boolean active) { isActive = active; }

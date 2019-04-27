@@ -29,6 +29,19 @@ public  class BankAccount {
     //vaze hesab
     private Boolean isActive;
 
+
+
+    private  BigDecimal min;
+
+    public BigDecimal getMin() {
+        return min;
+    }
+
+    public void setMin(BigDecimal min) {
+        this.min = min;
+    }
+
+
     public BankAccount() {
         this.isActive=true;
     }

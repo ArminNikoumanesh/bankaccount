@@ -5,11 +5,13 @@ import com.rayanen.bankAccount.model.dao.BankAccountDao;
 import com.rayanen.bankAccount.model.dao.TransactionDao;
 import com.rayanen.bankAccount.model.entity.BankAccount;
 import com.rayanen.bankAccount.model.entity.Transaction;
+import com.rayanen.bankAccount.serviceController.TransactionService;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -35,15 +37,18 @@ public class Monthly {
 
        List<BankAccount> account = bankAccountDao.findBankAccountByAccountNumber();
         for (BankAccount bankAccount : account) {
+         bankAccount.setTransactions(transactionDao.findByTransactionDate(Month));
+        List<Transaction> transactions=bankAccount.getTransactions();
+        bankAccount.setMin(bankAccount.getInventory());
 
-
-
-            List<Transaction> result=transactionDao.findByTransactionDate(Month);
-            for (Transaction transaction : result) {
+            for (Transaction transaction : transactions) {
                 if(transaction.inventoryBeforeTransaction.compareTo(transaction.getMin())<0){
-                    transaction.setMin(transaction.inventoryBeforeTransaction);
+                   bankAccount.setMin(transaction.inventoryBeforeTransaction);
                 }
-        }
+            }
+
+            TransactionService transactionService;
+            
 
         }
 
