@@ -18,19 +18,32 @@ public class TransactionDto {
 
     private TransactionTypesDto transactionType;
 
-    public BigDecimal  inventoryAfterTransaction;
+    public BigDecimal  inventoryBeforeTransaction;
 
     private Long version;
 
 
 
+    private  BigDecimal min;
 
-    public BigDecimal getInventoryAfterTransaction() {
-        return inventoryAfterTransaction;
+    public BigDecimal getMin() {
+        return min;
     }
 
-    public void setInventoryAfterTransaction(BigDecimal inventoryAfterTransaction) {
-        this.inventoryAfterTransaction = inventoryAfterTransaction;
+    public void setMin(BigDecimal min) {
+        this.min = min;
+    }
+
+
+
+
+
+    public BigDecimal getInventoryBeforeTransaction() {
+        return inventoryBeforeTransaction;
+    }
+
+    public void setInventoryBeforeTransaction(BigDecimal inventoryBeforeTransaction) {
+        this.inventoryBeforeTransaction = inventoryBeforeTransaction;
     }
 
     public String getIncreaserAccountNumber() {

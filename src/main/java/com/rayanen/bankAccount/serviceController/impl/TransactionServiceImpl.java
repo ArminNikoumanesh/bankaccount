@@ -35,8 +35,8 @@ public class TransactionServiceImpl implements TransactionService{
         logger.info("startDepositTransactionService");
         validationTransactionService.decreaseTransaction(transaction);
         BankAccount account = bankAccountDao.findBankAccountByAccountNumber(transaction.getDecreaserAccountNumber());
+        transaction.setInventoryBeforeTransaction(account.inventory);
         account.setInventory(account.getInventory().add(transaction.getAmount()));
-        transaction.setInventoryAfterTransaction(account.inventory);
         transactionDao.save(transaction);
         logger.info("endDepositTransactionService");
     }
@@ -47,8 +47,8 @@ public class TransactionServiceImpl implements TransactionService{
         logger.info("startIncreaseTransactionService");
         validationTransactionService.increaseTransaction(transaction);
             BankAccount account = bankAccountDao.findBankAccountByAccountNumber(transaction.getIncreaserAccountNumber());
+            transaction.setInventoryBeforeTransaction(account.inventory);
             account.setInventory(account.getInventory().subtract(transaction.getAmount()));
-            transaction.setInventoryAfterTransaction(account.inventory);
             transactionDao.save(transaction);
             logger.info("endIncreaseTransactionServiceService");
 

@@ -28,18 +28,29 @@ public class Transaction {
 
     private TransactionType transactionType;
 
-    public BigDecimal  inventoryAfterTransaction;
+    public BigDecimal  inventoryBeforeTransaction;
 
     @Version
     private Long version;
 
 
-    public BigDecimal getInventoryAfterTransaction() {
-        return inventoryAfterTransaction;
+    private  BigDecimal min;
+
+    public BigDecimal getMin() {
+        return min;
     }
 
-    public void setInventoryAfterTransaction(BigDecimal inventoryAfterTransaction) {
-        this.inventoryAfterTransaction = inventoryAfterTransaction;
+    public void setMin(BigDecimal min) {
+        this.min = min;
+    }
+
+
+    public BigDecimal getInventoryBeforeTransaction() {
+        return inventoryBeforeTransaction;
+    }
+
+    public void setInventoryBeforeTransaction(BigDecimal inventoryBeforeTransaction) {
+        this.inventoryBeforeTransaction = inventoryBeforeTransaction;
     }
 
     public String getIncreaserAccountNumber() {
