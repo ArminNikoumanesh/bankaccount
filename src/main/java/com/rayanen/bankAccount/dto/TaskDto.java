@@ -4,8 +4,17 @@ public class TaskDto {
 
     private String taskId;
     private String name;
+    private String formKey;
 
     public TaskDto() {
+    }
+
+    public String getFormKey() {
+        return formKey;
+    }
+
+    public void setFormKey(String formKey) {
+        this.formKey = formKey;
     }
 
     public String getTaskId() {

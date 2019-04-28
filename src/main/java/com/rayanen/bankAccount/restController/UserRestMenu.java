@@ -7,6 +7,7 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +17,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @RestController
 public class UserRestMenu {
@@ -45,10 +44,27 @@ public class UserRestMenu {
                 ))),
                 new MenuItmDto(MenuItemType.MENU, "خدمات ویرایش", null, new ArrayList<>(Arrays.asList(
                         new MenuItmDto(MenuItemType.PAGE, "شخص حقیقی", new UIPageDto(null, "updateRealPerson"), new ArrayList<>()),
-                        new MenuItmDto(MenuItemType.PAGE, " شخص حقوقی", new UIPageDto(null, "updateLegalPerson"), new ArrayList<>())
-                ))))));
+                        new MenuItmDto(MenuItemType.PAGE, " شخص حقوقی", new UIPageDto(null, "updateLegalPerson"), new ArrayList<>()),
+
+        new MenuItmDto(MenuItemType.MENU, "ثبت درخواست تسهیلات", null, new ArrayList<>(Arrays.asList(
+                new MenuItmDto(MenuItemType.PAGE, "تأیید", new UIPageDto(null, "approveTask"), new ArrayList<>())
+
+
+        )))))))));
+        UserDetails principal = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_SECRETARY")))
+            menuItmDto.getChildren().get(0).getChildren().add(new MenuItmDto(MenuItemType.PAGE, "ثبت درخواست تسهیلات", new UIPageDto(null, "startTask"), new ArrayList<MenuItmDto>()));
+        menuItmDto.getChildren().get(0).getChildren().add(new MenuItmDto(MenuItemType.PAGE, "تأیید", new UIPageDto(null, "approveTask"), new ArrayList<MenuItmDto>()));
         afterLoginInfoDto.setMenu(menuItmDto);
-        return new ResponseDto(ResponseStatus.Ok, afterLoginInfoDto,null,null);    }
+
+
+        afterLoginInfoDto.setMenu(menuItmDto);
+        return new ResponseDto(ResponseStatus.Ok, afterLoginInfoDto,null,null);
+
+
+
+
+    }
 
 
 
@@ -68,24 +84,39 @@ public class UserRestMenu {
     }
 
     @RequestMapping(value = "/ws/activiti/startProcess", method = RequestMethod.POST)
-    public ResponseDto startProcess() {
-        runtimeService.startProcessInstanceByKey("facility");
+    public ResponseDto startProcess(@RequestBody TaskInputDto taskInputDto) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("cNumber",taskInputDto.getcNumber());
+        runtimeService.startProcessInstanceByKey("test1", map);
         return new ResponseDto(ResponseStatus.Ok, null, "فرایند آغاز شد.", null);
 
     }
 
     @RequestMapping(value = "/ws/activiti/getTasks", method = RequestMethod.POST)
-    public ResponseDto<List<TaskDto>> getTasks(@RequestParam String taskId) {
+    public ResponseDto<List<TaskDto>> getTasks() {
         List<Task> list = taskService.createTaskQuery().taskAssignee(getUsername()).list();
         List<TaskDto> taskDtos = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             TaskDto taskDto = new TaskDto();
             taskDto.setTaskId(list.get(i).getId());
             taskDto.setName(list.get(i).getName());
+            taskDto.setFormKey(list.get(i).getFormKey());
             taskDtos.add(taskDto);
         }
         return new ResponseDto(ResponseStatus.Ok, taskDtos, null, null);
     }
+
+    @RequestMapping(value = "/ws/activiti/getTaskByTaskId", method = RequestMethod.POST)
+    public ResponseDto<TaskInputDto> getTaskByTaskId(@RequestParam String taskId) {
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+
+        TaskInputDto taskInputDto = new TaskInputDto();
+        taskInputDto.setTaskId(task.getId());
+        Map<String, Object> taskLocalVariables = runtimeService.getVariables(task.getProcessInstanceId());
+        taskInputDto.setcNumber(taskLocalVariables.get("cNumber").toString());
+        return new ResponseDto(ResponseStatus.Ok, taskInputDto, null, null);
+    }
+
 
     @RequestMapping(value = "/ws/activiti/approveTask", method = RequestMethod.POST)
     public ResponseDto approveTask(@RequestBody TaskDto taskDto) {
@@ -96,6 +127,30 @@ public class UserRestMenu {
         //taskService.setVariable(taskId,"sanad", obj);
         return new ResponseDto(ResponseStatus.Ok, null, "تأیید شد.", null);
     }
+
+    @RequestMapping(value = "/pws/activiti/getUrlByFormKey", method = RequestMethod.POST)
+    public ResponseDto<String> getUrlByFormKey(@RequestParam String formKey) {
+
+        String url = "";
+
+        switch (formKey){
+            case "UserAForm":
+                url = "approveTask2";
+                break;
+            case "UserBForm":
+                url = "approveTask";
+                break;
+            case "UserCForm":
+                url = "approveTask";
+                break;
+            case "UserDForm":
+                url = "approveTask";
+                break;
+        }
+        return new ResponseDto(ResponseStatus.Ok, url, null, null);
+    }
+
+
 
     private String getUsername() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

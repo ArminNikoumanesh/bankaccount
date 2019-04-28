@@ -4,7 +4,7 @@
         <webService address="ws/activiti/getTasks" value="obj" />
     </init>
     <section title="کارتابل" >
-        <table label="شماره تلفن" value="obj" >
+        <table label=" تسک" value="obj" >
             <input label="نام :" type="text" value="name" disable="true"/>
             <input label="شماره تسک :" type="text" value="taskId" disable="true"/>
             <button label="انجام عملیات" >
