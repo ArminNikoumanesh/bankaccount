@@ -18,18 +18,17 @@
         </search>
 
     <section title="کاربر یافت شده">
-        <input label="نام" type="text" value="obj.name"/>
+        <input label="نام شرکت" type="text" value="obj.name"/>
         <input label="نام مدیر" type="text" value="obj.maneger"/>
         <input label="آدرس" type="text" value="obj.address"/>
         <input label="کدپستی" type="text" value="obj.postalCode"/>
-        <input label="تاریخ ثبت شرکت" type="date" value="obj.date"/>
-        <input label="کدثبتی شرکت" type="text" value="obj.companyCode" />
-        <input label="شماره حساب" type="text" value="obj.accountNumber" />
+        <input label="تاریخ ثبت" type="date" value="obj.date"/>
+        <input label="کد ثبتی" type="text" value="obj.companyCode"/>
 
 
-        <table label="حساب بانکی" value="obj.bankAccounts" type="editable">
-        <input label="موجودی:" type="text" value="inventory"/>
-        <input label="شماره حساب:" type="text" value="accountNumber"/>
+        <table label="حساب بانکی" value="obj.bankAccounts" type="editable"/>
+        <input label="موجودی اولیه" type="text" value="inventory"/>
+        <input label="شماره حساب" type="text" value="accountNumber"/>
         <comboBox label="نوع حساب" value="accountTypes">
             <comboItem itemLabel="جاری" itemValue="CURRENT"/>
             <comboItem itemLabel="قرض الحسنه" itemValue="NORMAL"/>

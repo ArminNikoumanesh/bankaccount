@@ -56,11 +56,13 @@ public class UserRestMenu {
        )));
         UserDetails principal = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(principal.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_SECRETARY"))) {
-//          menuItmDto.getChildren().get(4).getChildren().add(new MenuItmDto(MenuItemType.MENU, "تسهیلات",new  ArrayList<>(Arrays.asList())));
             menuItmDto.getChildren().get(1).getChildren().add(new MenuItmDto(MenuItemType.PAGE, "ثبت تسهیلات ", new UIPageDto(null, "startTask"), new ArrayList<MenuItmDto>()));
-//          menuItmDto.getChildren().get(0).getChildren().add(new MenuItmDto(MenuItemType.PAGE, "تأیید", new UIPageDto(null, "approveTask"), new ArrayList<MenuItmDto>()));
         }
-//        afterLoginInfoDto.setMenu(menuItmDto);
+        if(principal.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MANAGER"))) {
+            menuItmDto.getChildren().get(1).getChildren().add(new MenuItmDto(MenuItemType.PAGE, "مسدود کردن حساب شخص حقیقی", new UIPageDto(null, "deleteRealAccount"), new ArrayList<MenuItmDto>()));
+            menuItmDto.getChildren().get(1).getChildren().add(new MenuItmDto(MenuItemType.PAGE, "مسدود کردن حساب شخص حقوقی", new UIPageDto(null, "deleteLegalAccount"), new ArrayList<MenuItmDto>()));
+        }
+
 
 
         afterLoginInfoDto.setMenu(menuItmDto);

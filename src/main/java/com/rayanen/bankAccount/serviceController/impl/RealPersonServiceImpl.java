@@ -68,6 +68,7 @@ public class RealPersonServiceImpl implements RealPersonService {
     }
 
 
+
     public void deleteRealAccount( BankAccount bankAccount) throws Exception {
         logger.info("startLegalUpdateRestController");
         validationRealPersonService.deleteRealAccount(bankAccount);

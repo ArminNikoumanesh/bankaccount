@@ -28,7 +28,7 @@
         <comboBox label="جنسیت" value="obj.gender">
             <comboItem itemLabel="مرد" itemValue="Male"/>
             <comboItem itemLabel="زن" itemValue="Female"/>
-
+        </comboBox>
         <table label="حساب بانکی" value="obj.bankAccounts" type="editable">
             <input label="شماره حساب:" type="text" value="accountNumber"/>
             <input label="موجودی: " type="text" value="accountNumber"/>
