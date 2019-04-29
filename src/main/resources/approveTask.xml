@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<page title="تأیید">
+<page title="برسی درخواست">
     <init>
         <webService address="ws/activiti/getTaskByTaskId" value="obj" >
             <webServiceInput name="taskId" ref="urlParams.taskId"/>
@@ -7,10 +7,16 @@
     </init>
     <section title="مشخصات تسهیلات">
         <input label="شماره تسک :" type="text" value="obj.taskId"/>
-        <input label="شماره مشتری :" type="text" value="obj.cNumber"/>
+        <input label="شماره حساب مشتری:" type="text" value="obj.cNumber"/>
+        <input label="مبلغ درخواستی:" type="text" value="obj.amount"/>
         <actions>
             <button label="تایید">
                 <webService address="ws/activiti/approveTask" clearPageOnSuccess="true" >
+                    <webServiceInputObject name="obj"/>
+                </webService>
+            </button>
+            <button label="رد درخواست">
+                <webService address="ws/activiti/rejectTask" clearPageOnSuccess="true" >
                     <webServiceInputObject name="obj"/>
                 </webService>
             </button>

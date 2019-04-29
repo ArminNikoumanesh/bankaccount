@@ -7,8 +7,9 @@ import com.rayanen.bankAccount.model.entity.BankAccount;
 import com.rayanen.bankAccount.model.entity.Transaction;
 import com.rayanen.bankAccount.serviceController.TransactionService;
 import org.springframework.web.bind.annotation.RequestParam;
-import sun.util.resources.ca.CalendarData_ca;
 
+
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -32,16 +33,29 @@ public class Daily {
     private void profit(@RequestParam Integer Month, @RequestParam Integer Days) throws Exception{
         Month=getLastMonth();
         Days=getDays();
-
+        BigDecimal Amount = null;
         List<BankAccount> account = bankAccountDao.findByAccountNumber();
+
         for (BankAccount bankAccount : account) {
             bankAccount.setTransactions(transactionDao.findByTransactionDate(Month));
             List<Transaction> transactionList=bankAccount.getTransactions();
+            bankAccount.setMin(bankAccount.getInventory());
 
             for (Transaction transaction : transactionList) {
-                
+                List<Transaction> transactionForEachDay=transactionDao.findByTransactionDateDays(Days);
+
+                for (Transaction transactions: transactionForEachDay) {
+                    if(transactions.inventoryBeforeTransaction.compareTo(transactions.getMin())<0){
+                        bankAccount.setMin(transactions.inventoryBeforeTransaction);
+                    }
+                }
+                transaction.setMin(bankAccount.getMin().multiply(BigDecimal.valueOf(20)).divide(BigDecimal.valueOf(36500)));
+                Amount= Amount.add(transaction.getMin());
 
             }
+            transaction.setAmount(Amount);
+            transaction.setIncreaserAccountNumber(bankAccount.getAccountNumber());
+            transactionService.decreaseTransaction(transaction);
         }
 
     }

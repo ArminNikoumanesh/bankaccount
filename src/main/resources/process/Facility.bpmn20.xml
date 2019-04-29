@@ -2,25 +2,25 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
   <process id="facility" name="Facility" isExecutable="true">
     <startEvent id="startEvent1"></startEvent>
-    <userTask id="sid-E34D8789-90C1-400E-9BAE-43CBCAB52104" name="Secretary" activiti:assignee="User A" activiti:formKey="UserAForm">
+    <userTask id="sid-E34D8789-90C1-400E-9BAE-43CBCAB52104" name="Secretary" activiti:assignee="UserA" activiti:formKey="UserAForm">
       <extensionElements>
         <modeler:initiator-can-complete xmlns:modeler="http://activiti.com/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
       </extensionElements>
     </userTask>
     <sequenceFlow id="sid-02F5FE49-5006-4665-994F-0DD2CA3692FF" sourceRef="startEvent1" targetRef="sid-E34D8789-90C1-400E-9BAE-43CBCAB52104"></sequenceFlow>
-    <userTask id="sid-312EB1CF-41F7-4730-BEF7-210205B356C9" name="Manager" activiti:assignee="User B" activiti:formKey="UserBForm">
+    <userTask id="sid-312EB1CF-41F7-4730-BEF7-210205B356C9" name="Manager" activiti:assignee="UserB" activiti:formKey="UserBForm">
       <extensionElements>
         <modeler:initiator-can-complete xmlns:modeler="http://activiti.com/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
       </extensionElements>
     </userTask>
     <sequenceFlow id="sid-524DBAA6-B6E3-43C0-A248-92F792AAB943" sourceRef="sid-E34D8789-90C1-400E-9BAE-43CBCAB52104" targetRef="sid-312EB1CF-41F7-4730-BEF7-210205B356C9"></sequenceFlow>
     <exclusiveGateway id="sid-B40BCCE2-5E4B-4978-BA58-834119E463AE"></exclusiveGateway>
-    <userTask id="sid-D810DA31-F3DD-421F-A4F3-AF9ABBAE9C26" name="Accountants" activiti:assignee="User C" activiti:formKey="UserCForm">
+    <userTask id="sid-D810DA31-F3DD-421F-A4F3-AF9ABBAE9C26" name="Accountants" activiti:assignee="UserC" activiti:formKey="UserCForm">
       <extensionElements>
         <modeler:initiator-can-complete xmlns:modeler="http://activiti.com/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
       </extensionElements>
     </userTask>
-    <userTask id="sid-23BF5596-6B9C-45F9-84EA-EA6CF48216A7" name="Deputy" activiti:assignee="User D" activiti:formKey="UserDForm">
+    <userTask id="sid-23BF5596-6B9C-45F9-84EA-EA6CF48216A7" name="Deputy" activiti:assignee="UserD" activiti:formKey="UserDForm">
       <extensionElements>
         <modeler:initiator-can-complete xmlns:modeler="http://activiti.com/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
       </extensionElements>

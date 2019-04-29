@@ -4,6 +4,7 @@ import com.rayanen.bankAccount.dto.*;
 import com.rayanen.bankAccount.dto.ResponseStatus;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -33,6 +34,7 @@ public class UserRestMenu {
     public ResponseDto<MenuItmDto> getUserMenu() {
         AfterLoginInfoDto afterLoginInfoDto = new AfterLoginInfoDto();
         MenuItmDto menuItmDto = new MenuItmDto(null, null, null, new ArrayList<MenuItmDto>(Arrays.asList(
+
                 new MenuItmDto(MenuItemType.MENU, "خدمات مشتری", null, new ArrayList<MenuItmDto>(Arrays.asList(
                         new MenuItmDto(MenuItemType.PAGE, "افزودن شخص حقیقی", new UIPageDto(null, "addRealPerson"), new ArrayList<>()),
                         new MenuItmDto(MenuItemType.PAGE, "افزودن شخص حقوقی", new UIPageDto(null, "addLegalPerson"), new ArrayList<>())))),
@@ -44,18 +46,21 @@ public class UserRestMenu {
                 ))),
                 new MenuItmDto(MenuItemType.MENU, "خدمات ویرایش", null, new ArrayList<>(Arrays.asList(
                         new MenuItmDto(MenuItemType.PAGE, "شخص حقیقی", new UIPageDto(null, "updateRealPerson"), new ArrayList<>()),
-                        new MenuItmDto(MenuItemType.PAGE, " شخص حقوقی", new UIPageDto(null, "updateLegalPerson"), new ArrayList<>()),
+                        new MenuItmDto(MenuItemType.PAGE, " شخص حقوقی", new UIPageDto(null, "updateLegalPerson"), new ArrayList<>())
 
-        new MenuItmDto(MenuItemType.MENU, "ثبت درخواست تسهیلات", null, new ArrayList<>(Arrays.asList(
-                new MenuItmDto(MenuItemType.PAGE, "تأیید", new UIPageDto(null, "approveTask"), new ArrayList<>())
+                        ))),
+        new MenuItmDto(MenuItemType.MENU, "کارتابل", null, new ArrayList<>(Arrays.asList(
+                new MenuItmDto(MenuItemType.PAGE, "تأیید", new UIPageDto(null, "approveTask"), new ArrayList<>()),
+                new MenuItmDto(MenuItemType.PAGE, "کارتابل", new UIPageDto(null, "showTasks"), new ArrayList<>()))))
 
-
-        )))))))));
+       )));
         UserDetails principal = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(principal.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_SECRETARY")))
-            menuItmDto.getChildren().get(0).getChildren().add(new MenuItmDto(MenuItemType.PAGE, "ثبت درخواست تسهیلات", new UIPageDto(null, "startTask"), new ArrayList<MenuItmDto>()));
-        menuItmDto.getChildren().get(0).getChildren().add(new MenuItmDto(MenuItemType.PAGE, "تأیید", new UIPageDto(null, "approveTask"), new ArrayList<MenuItmDto>()));
-        afterLoginInfoDto.setMenu(menuItmDto);
+        if(principal.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_SECRETARY"))) {
+//          menuItmDto.getChildren().get(4).getChildren().add(new MenuItmDto(MenuItemType.MENU, "تسهیلات",new  ArrayList<>(Arrays.asList())));
+            menuItmDto.getChildren().get(1).getChildren().add(new MenuItmDto(MenuItemType.PAGE, "ثبت تسهیلات ", new UIPageDto(null, "startTask"), new ArrayList<MenuItmDto>()));
+//          menuItmDto.getChildren().get(0).getChildren().add(new MenuItmDto(MenuItemType.PAGE, "تأیید", new UIPageDto(null, "approveTask"), new ArrayList<MenuItmDto>()));
+        }
+//        afterLoginInfoDto.setMenu(menuItmDto);
 
 
         afterLoginInfoDto.setMenu(menuItmDto);
@@ -87,7 +92,9 @@ public class UserRestMenu {
     public ResponseDto startProcess(@RequestBody TaskInputDto taskInputDto) {
         Map<String,Object> map = new HashMap<>();
         map.put("cNumber",taskInputDto.getcNumber());
-        runtimeService.startProcessInstanceByKey("test1", map);
+        map.put("amount", taskInputDto.getAmount());
+        ProcessInstance facility = runtimeService.startProcessInstanceByKey("facility", map);
+        taskService.complete(taskService.createTaskQuery().processInstanceId(facility.getProcessInstanceId()).singleResult().getId());
         return new ResponseDto(ResponseStatus.Ok, null, "فرایند آغاز شد.", null);
 
     }
@@ -109,7 +116,6 @@ public class UserRestMenu {
     @RequestMapping(value = "/ws/activiti/getTaskByTaskId", method = RequestMethod.POST)
     public ResponseDto<TaskInputDto> getTaskByTaskId(@RequestParam String taskId) {
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-
         TaskInputDto taskInputDto = new TaskInputDto();
         taskInputDto.setTaskId(task.getId());
         Map<String, Object> taskLocalVariables = runtimeService.getVariables(task.getProcessInstanceId());
@@ -117,14 +123,19 @@ public class UserRestMenu {
         return new ResponseDto(ResponseStatus.Ok, taskInputDto, null, null);
     }
 
-
     @RequestMapping(value = "/ws/activiti/approveTask", method = RequestMethod.POST)
     public ResponseDto approveTask(@RequestBody TaskDto taskDto) {
-        // Map<String,Object> map = new HashMap<>();
-        //   map.put("sanad",obj);
-        // taskService.complete(taskId, map);
-        taskService.complete(taskDto.getTaskId());
-        //taskService.setVariable(taskId,"sanad", obj);
+        Map<String, Object> map = new HashMap<>();
+        map.put("Accept", true);
+        taskService.complete(taskDto.getTaskId(), map);
+        return new ResponseDto(ResponseStatus.Ok, null, "تأیید شد.", null);
+    }
+
+    @RequestMapping(value = "/ws/activiti/rejectTask", method = RequestMethod.POST)
+    public ResponseDto rejectTask(@RequestBody TaskDto taskDto) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("Accept", false);
+        taskService.complete(taskDto.getTaskId(), map);
         return new ResponseDto(ResponseStatus.Ok, null, "تأیید شد.", null);
     }
 
@@ -135,7 +146,7 @@ public class UserRestMenu {
 
         switch (formKey){
             case "UserAForm":
-                url = "approveTask2";
+                url = "approveTask";
                 break;
             case "UserBForm":
                 url = "approveTask";

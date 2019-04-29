@@ -24,13 +24,13 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("USER A").password(passwordEncoder().encode("123")).roles("ADMIN","SECRETARY")
+                .withUser("UserA").password(passwordEncoder().encode("123")).roles("ADMIN","SECRETARY")
                 .and()
-                .withUser("USER B").password(passwordEncoder().encode("123")).roles("ADMIN","MANAGER")
+                .withUser("UserB").password(passwordEncoder().encode("123")).roles("ADMIN","MANAGER")
                 .and()
-                .withUser("USER C").password(passwordEncoder().encode("123")).roles("ADMIN","ACCOUNTANTS")
+                .withUser("UserC").password(passwordEncoder().encode("123")).roles("ADMIN","ACCOUNTANTS")
                 .and()
-                .withUser("USER D").password(passwordEncoder().encode("123")).roles("ADMIN","DEPUTY")
+                .withUser("UserD").password(passwordEncoder().encode("123")).roles("ADMIN","DEPUTY")
                 .and()
                 .withUser("ADMIN").password(passwordEncoder().encode("ADMIN")).roles("ADMIN");
     }

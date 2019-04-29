@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <page title="جستجو">
     <section title="درخواست تسهیلات" >
-        <input label="شماره مشتری:" type="text" value="obj.cNumber"/>
+        <input label="شماره حساب مشتری:" type="text" value="obj.cNumber"/>
+        <input label="مبلغ درخواستی:" type="text" value="obj.amount"/>
         <actions>
             <button label="ثبت درخواست">
                 <webService address="ws/activiti/startProcess" clearPageOnSuccess="true" >

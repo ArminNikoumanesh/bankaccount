@@ -49,10 +49,7 @@ public class TransactionServiceImpl implements TransactionService{
             BankAccount account = bankAccountDao.findBankAccountByAccountNumber(transaction.getIncreaserAccountNumber());
             transaction.setInventoryBeforeTransaction(account.inventory);
             account.setInventory(account.getInventory().subtract(transaction.getAmount()));
-//            if (account.getMin().compareTo(account.inventory)>0){
-//                account.setMin(account.getInventory());
-//
-//            }
+
             transactionDao.save(transaction);
             logger.info("endIncreaseTransactionServiceService");
 
