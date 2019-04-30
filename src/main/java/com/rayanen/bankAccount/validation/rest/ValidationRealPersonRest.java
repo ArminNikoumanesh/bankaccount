@@ -3,34 +3,34 @@ package com.rayanen.bankAccount.validation.rest;
 import com.rayanen.bankAccount.dto.RealPersonDto;
 import com.rayanen.bankAccount.model.dao.BankAccountDao;
 import com.rayanen.bankAccount.model.dao.RealPersonDao;
-import com.rayanen.bankAccount.model.entity.BankAccount;
-import com.rayanen.bankAccount.model.entity.RealPerson;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+
 import java.util.Objects;
 
 
 @Component
 public class ValidationRealPersonRest {
-    RealPersonDao realPersonDao;
-    BankAccountDao bankAccountDao;
+  private  RealPersonDao realPersonDao;
+  private  BankAccountDao bankAccountDao;
+  private  Environment environment;
 
-    public ValidationRealPersonRest(RealPersonDao realPersonDao, BankAccountDao bankAccountDao) {
+    public ValidationRealPersonRest(RealPersonDao realPersonDao, BankAccountDao bankAccountDao, Environment environment) {
         this.realPersonDao = realPersonDao;
         this.bankAccountDao = bankAccountDao;
+        this.environment = environment;
     }
-
 
     public void RealValidation(RealPersonDto realPerson)throws Exception {
         String error = "";
 
             if (Objects.isNull(realPerson.getName()) || realPerson.getName().length() < 2)
-                error +="not valid name";
+                error +=environment.getProperty("exc.message.validation.real.name");
             if (Objects.isNull(realPerson.getFamilyName()) || realPerson.getFamilyName().length() < 2)
-                error +="not valid family";
+                error +=environment.getProperty("exc.message.validation.real.family");
             if (Objects.isNull(realPerson.getNationalCode()) || realPerson.getNationalCode().length() < 10 || realPerson.getNationalCode().length() > 10)
-                error +="not valid nationalCode";
+                error +=environment.getProperty("exc.message.validation.real.NationalCode");
 
 
 

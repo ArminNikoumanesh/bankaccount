@@ -2,7 +2,6 @@ package com.rayanen.bankAccount.facade;
 
 import com.rayanen.bankAccount.dto.*;
 
-import com.rayanen.bankAccount.model.entity.BankAccount;
 import com.rayanen.bankAccount.model.entity.LegalPerson;
 import com.rayanen.bankAccount.model.entity.RealPerson;
 import com.rayanen.bankAccount.model.entity.Transaction;

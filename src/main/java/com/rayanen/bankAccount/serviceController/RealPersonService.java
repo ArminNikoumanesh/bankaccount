@@ -1,7 +1,6 @@
 package com.rayanen.bankAccount.serviceController;
 
 
-import com.rayanen.bankAccount.model.entity.BankAccount;
 import com.rayanen.bankAccount.model.entity.RealPerson;
 
 import java.util.List;

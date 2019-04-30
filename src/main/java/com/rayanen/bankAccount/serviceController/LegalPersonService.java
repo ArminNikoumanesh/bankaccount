@@ -1,6 +1,5 @@
 package com.rayanen.bankAccount.serviceController;
 
-import com.rayanen.bankAccount.dto.ResponseDto;
 import com.rayanen.bankAccount.model.entity.LegalPerson;
 
 import java.util.List;

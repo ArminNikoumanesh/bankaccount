@@ -3,8 +3,9 @@ package com.rayanen.bankAccount.validation.service;
 
 import com.rayanen.bankAccount.model.dao.BankAccountDao;
 import com.rayanen.bankAccount.model.dao.RealPersonDao;
-import com.rayanen.bankAccount.model.entity.BankAccount;
 import com.rayanen.bankAccount.model.entity.RealPerson;
+
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,14 +16,16 @@ import java.util.Objects;
 @Component
 public class ValidationRealPersonService {
 
-    RealPersonDao realPersonDao;
-    BankAccountDao bankAccountDao;
 
-    public ValidationRealPersonService(RealPersonDao realPersonDao, BankAccountDao bankAccountDao) {
+    private Environment environment;
+    private  RealPersonDao realPersonDao;
+    private BankAccountDao bankAccountDao;
+
+    public ValidationRealPersonService(Environment environment, RealPersonDao realPersonDao, BankAccountDao bankAccountDao) {
+        this.environment = environment;
         this.realPersonDao = realPersonDao;
         this.bankAccountDao = bankAccountDao;
     }
-
 
     public void RealValidation(RealPerson realPerson)throws Exception {
  String error = "";
@@ -30,13 +33,13 @@ public class ValidationRealPersonService {
 
         if (!report) {
             if (Objects.isNull(realPerson.getName()) || realPerson.getName().length() < 2)
-                error +="فیلد نام صحیح پر نشده است";
+                error +=environment.getProperty("exc.message.validation.real.name") ;
                 if (Objects.isNull(realPerson.getFamilyName()) || realPerson.getFamilyName().length() < 2)
-                    error +="فیلد نام خوانوادگی صحیح پر نشده";
+                    error +=environment.getProperty("exc.message.validation.real.family");
                     if (Objects.isNull(realPerson.getNationalCode()) || realPerson.getNationalCode().length() < 10 || realPerson.getNationalCode().length() > 10)
-                        error +="فیلد شماره کد ملی صحیح پر نشده";
+                        error +=environment.getProperty("exc.message.validation.real.NationalCode");
 
-        }else{ error +="کد ملی قبلا وارد شده";
+        }else{ error +=environment.getProperty("exc.message.validation.real.NationalCode.doplicate");
         }
 
                             if(!error.equals(""))
@@ -51,9 +54,16 @@ public class ValidationRealPersonService {
         String error = "";
         boolean report = realPersonDao.existsByNationalCode(realPerson.getNationalCode());
 
-        if(!report) {
+        if(report) {
+            if (Objects.isNull(realPerson.getName()) || realPerson.getName().length() < 2)
+                error +=environment.getProperty("exc.message.validation.real.name") ;
+            if (Objects.isNull(realPerson.getFamilyName()) || realPerson.getFamilyName().length() < 2)
+                error +=environment.getProperty("exc.message.validation.real.family");
+            if (Objects.isNull(realPerson.getNationalCode()) || realPerson.getNationalCode().length() < 10 || realPerson.getNationalCode().length() > 10)
+                error +=environment.getProperty("exc.message.validation.real.NationalCode");
 
-            error += "کد ملی شخص مورد نظر موجود نمیباشد";
+
+        } else{ error += environment.getProperty("exc.message.validation.real.NationalCode.less");
 
         }
         if(!error.equals(""))
@@ -65,7 +75,7 @@ public class ValidationRealPersonService {
         String error = "";
         List<RealPerson> result = realPersonDao.findByNameAndFamilyName(realPerson.getName(), realPerson.getFamilyName());
         if(Objects.isNull(result)){
-            error += "شخصی با این مشخصات یافت نشد";
+            error += environment.getProperty("exc.message.validation.real.NationalCode.findAll");
         }
         if(!error.equals(""))
             throw  new Exception(error);
@@ -81,7 +91,7 @@ public class ValidationRealPersonService {
             if (Objects.isNull(realPersonDaoByNationalCode)){
 
 
-            error += "کد ملی شخص مورد نظر موجود نمیباشد";
+            error += environment.getProperty("exc.message.validation.real.NationalCode.findByNationalCode");
         }
         if(!error.equals(""))
             throw  new Exception(error);

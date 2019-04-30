@@ -6,7 +6,7 @@ import com.rayanen.bankAccount.model.dao.TransactionDao;
 import com.rayanen.bankAccount.model.entity.BankAccount;
 import com.rayanen.bankAccount.model.entity.Transaction;
 import com.rayanen.bankAccount.serviceController.TransactionService;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.scheduling.annotation.Scheduled;
 
 
 import java.math.BigDecimal;
@@ -28,9 +28,12 @@ public class Daily {
         this.transactionDao = transactionDao;
         this.transaction = transaction;
     }
+@Scheduled(cron = "* * * * * *")
+public void run() throws Exception {
+        profit(getLastMonth(),getDays());
+}
 
-
-    private void profit(@RequestParam Integer Month, @RequestParam Integer Days) throws Exception{
+    private void profit(Integer Month,  Integer Days) throws Exception{
         Month=getLastMonth();
         Days=getDays();
         BigDecimal Amount = null;

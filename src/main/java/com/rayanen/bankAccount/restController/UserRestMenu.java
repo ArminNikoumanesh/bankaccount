@@ -7,6 +7,7 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,9 +28,14 @@ public class UserRestMenu {
 
     @Autowired
     private TaskService taskService;
-
     @Autowired
     private RuntimeService runtimeService;
+    @Autowired
+    private Environment environment;
+
+
+
+
 
     @RequestMapping(value = "/ws/login", method = RequestMethod.GET)
     public ResponseDto<MenuItmDto> getUserMenu() {
@@ -69,11 +75,7 @@ public class UserRestMenu {
         afterLoginInfoDto.setMenu(menuItmDto);
         return new ResponseDto(ResponseStatus.Ok, afterLoginInfoDto,null,null);
 
-
-
-
     }
-
 
 
     @RequestMapping(value = "/pws/uipage/getPage", method = RequestMethod.POST)
@@ -98,7 +100,7 @@ public class UserRestMenu {
         map.put("amount", taskInputDto.getAmount());
         ProcessInstance facility = runtimeService.startProcessInstanceByKey("facility", map);
         taskService.complete(taskService.createTaskQuery().processInstanceId(facility.getProcessInstanceId()).singleResult().getId());
-        return new ResponseDto(ResponseStatus.Ok, null, "فرایند آغاز شد.", null);
+        return new ResponseDto(ResponseStatus.Ok, null, environment.getProperty("app.message.activiti.startProcess"), null);
 
     }
 
@@ -132,11 +134,12 @@ public class UserRestMenu {
         Map<String, Object> map = new HashMap<>();
         map.put("Accept", true);
         taskService.complete(taskDto.getTaskId(), map);
+
         if(taskService.createTaskQuery().taskId(taskDto.getTaskId()).singleResult().getAssignee().equals("UserC")){
-            
+
 
         }
-        return new ResponseDto(ResponseStatus.Ok, null, "تأیید شد.", null);
+        return new ResponseDto(ResponseStatus.Ok, null, environment.getProperty("app.message.activiti.approveTask"), null);
     }
 
     @RequestMapping(value = "/ws/activiti/rejectTask", method = RequestMethod.POST)
@@ -144,9 +147,8 @@ public class UserRestMenu {
         Map<String, Object> map = new HashMap<>();
         map.put("Accept", false);
         taskService.complete(taskDto.getTaskId(), map);
-        return new ResponseDto(ResponseStatus.Ok, null, "تأیید شد.", null);
+        return new ResponseDto(ResponseStatus.Ok, null, environment.getProperty("app.message.activiti.rejectTask"), null);
     }
-
 
 
 

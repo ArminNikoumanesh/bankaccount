@@ -6,10 +6,9 @@ import com.rayanen.bankAccount.dto.ResponseStatus;
 import com.rayanen.bankAccount.facade.Facade;
 import com.rayanen.bankAccount.model.entity.RealPerson;
 import com.rayanen.bankAccount.validation.rest.ValidationRealPersonRest;
-import org.omg.CORBA.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,16 +19,15 @@ public class RealPersonRestController {
 
     private static Logger logger = LoggerFactory.getLogger(RealPersonRestController.class);
 
-    ValidationRealPersonRest validationRealPersonRest;
-    Facade facade;
+   private ValidationRealPersonRest validationRealPersonRest;
+    private Facade facade;
+    private Environment environment;
 
-    public RealPersonRestController(ValidationRealPersonRest validationRealPersonRest, Facade facade) {
+    public RealPersonRestController(ValidationRealPersonRest validationRealPersonRest, Facade facade, Environment environment) {
         this.validationRealPersonRest = validationRealPersonRest;
         this.facade = facade;
+        this.environment = environment;
     }
-
-
-
 
     @RequestMapping(value = "ws/saveReal", method = RequestMethod.POST)
     public ResponseDto<String> saveReal(@RequestBody RealPersonDto realPersonDto) throws Exception {
@@ -37,7 +35,8 @@ public class RealPersonRestController {
         validationRealPersonRest.RealValidation(realPersonDto);
         facade.saveReal(realPersonDto);
         logger.info("endRealSaveRestController");
-        return new ResponseDto(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
+        return new ResponseDto(ResponseStatus.Ok, null, environment.getProperty("app.message.saveReal"), null);
+
     }
 
 
@@ -47,7 +46,7 @@ public class RealPersonRestController {
         validationRealPersonRest.RealValidation(realPersonDto);
         facade.updateReal(realPersonDto);
         logger.info("endUpdateSaveRestController");
-        return new ResponseDto(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
+        return new ResponseDto(ResponseStatus.Ok, null,  environment.getProperty("app.message.updateReal"), null);
     }
 
 

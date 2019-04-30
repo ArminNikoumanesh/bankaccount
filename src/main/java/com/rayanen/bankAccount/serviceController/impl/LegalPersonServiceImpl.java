@@ -1,10 +1,7 @@
 package com.rayanen.bankAccount.serviceController.impl;
 
 
-import com.rayanen.bankAccount.dto.ResponseDto;
-import com.rayanen.bankAccount.dto.ResponseStatus;
 import com.rayanen.bankAccount.model.dao.LegalPersonDao;
-import com.rayanen.bankAccount.model.entity.BankAccount;
 import com.rayanen.bankAccount.model.entity.LegalPerson;
 import com.rayanen.bankAccount.restController.LegalPersonRestController;
 import com.rayanen.bankAccount.serviceController.LegalPersonService;

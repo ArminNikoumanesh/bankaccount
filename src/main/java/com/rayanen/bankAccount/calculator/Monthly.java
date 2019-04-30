@@ -1,13 +1,11 @@
 package com.rayanen.bankAccount.calculator;
 
-
-import com.rayanen.bankAccount.dto.TransactionDto;
 import com.rayanen.bankAccount.model.dao.BankAccountDao;
 import com.rayanen.bankAccount.model.dao.TransactionDao;
 import com.rayanen.bankAccount.model.entity.BankAccount;
 import com.rayanen.bankAccount.model.entity.Transaction;
 import com.rayanen.bankAccount.serviceController.TransactionService;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -29,9 +27,13 @@ public class Monthly {
         this.transactionDao = transactionDao;
         this.transaction = transaction;
     }
+    @Scheduled(cron = "* * * * * *")
+    private  void  run() throws Exception {
+        profit(getLastMonth());
+    }
 
 
-    private void profit(@RequestParam Integer Month) throws Exception {
+    private void profit(Integer Month) throws Exception {
         Month=getLastMonth();
          BigDecimal Amount;
        List<BankAccount> account = bankAccountDao.findByAccountNumber();

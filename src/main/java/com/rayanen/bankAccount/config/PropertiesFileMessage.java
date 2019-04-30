@@ -6,6 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 
 @Configuration
-@PropertySources({@PropertySource("classpath:message.properties")})
+@PropertySources( {@PropertySource("classpath:message.properties"),@PropertySource("classpath:Exception.properties")} )
 public class PropertiesFileMessage {
+
 }

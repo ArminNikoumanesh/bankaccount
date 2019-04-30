@@ -1,28 +1,30 @@
 package com.rayanen.bankAccount.validation.rest;
 
 import com.rayanen.bankAccount.dto.LegalPersonDto;
-import com.rayanen.bankAccount.model.dao.LegalPersonDao;
-import com.rayanen.bankAccount.model.entity.LegalPerson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+
 import java.util.Objects;
 
 
 @Component
 public class ValidationLegalPersonRest {
 
+@Autowired
+private Environment environment;
 
     public void LegalValidation(LegalPersonDto legalPerson)throws Exception {
         String error = "";
 
 
             if ( Objects.isNull(legalPerson.getName()) || legalPerson.getName().length() < 2)
-                error +="not valid name";
+                error +=environment.getProperty("exc.message.validation.legal.name")   ;
             if ( Objects.isNull(legalPerson.getManeger()) || legalPerson.getManeger().length() < 2)
-                error +="not valid manager";
+                error +=environment.getProperty("exc.message.validation.legal.Maneger");
             if ( Objects.isNull(legalPerson.getCompanyCode()) || legalPerson.getCompanyCode().length()< 10 || legalPerson.getCompanyCode().length()>10)
-                error +="not valid nationalCode";
+                error +=environment.getProperty("exc.message.validation.legal.CompanyCode");
 
 
         if(!error.equals(""))

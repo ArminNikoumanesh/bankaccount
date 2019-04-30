@@ -3,6 +3,7 @@ package com.rayanen.bankAccount.validation.service;
 
 import com.rayanen.bankAccount.model.dao.LegalPersonDao;
 import com.rayanen.bankAccount.model.entity.LegalPerson;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,12 +12,13 @@ import java.util.Objects;
 @Component
 public class ValidationLegalPersonService {
 
-    LegalPersonDao legalPersonDao;
+ private LegalPersonDao legalPersonDao;
+ private Environment environment;
 
-    public ValidationLegalPersonService(LegalPersonDao legalPersonDao) {
+    public ValidationLegalPersonService(LegalPersonDao legalPersonDao, Environment environment) {
         this.legalPersonDao = legalPersonDao;
+        this.environment = environment;
     }
-
 
     public void saveLegalValidation(LegalPerson legalPerson)throws Exception {
         String error = "";
@@ -24,13 +26,13 @@ public class ValidationLegalPersonService {
 
         if(!report) {
             if ( Objects.isNull(legalPerson.getName()) || legalPerson.getName().length() < 2)
-                error +="فیلد نام صحیح پر نشده";
+                error +=environment.getProperty("exc.message.validation.legal.name");
             if ( Objects.isNull(legalPerson.getManeger()) || legalPerson.getManeger().length() < 2)
-                error +="فیلد نام مدیر صحیح پر نشده";
+                error +=environment.getProperty("exc.message.validation.legal.Maneger");
             if ( Objects.isNull(legalPerson.getCompanyCode()) || legalPerson.getCompanyCode().length()< 10 || legalPerson.getCompanyCode().length()>10)
-                error +="فیلد شماره کدثبتی صحیح پر نشده";
+                error +=environment.getProperty("exc.message.validation.legal.CompanyCode");
 
-        }else{ error +="کد ثبتی قبلا وارد شده";
+        }else{ error +=environment.getProperty("exc.message.validation.legal.CompanyCode.doplicate");
 
         }
         if(!error.equals(""))
@@ -44,14 +46,14 @@ public class ValidationLegalPersonService {
         String error = "";
         if(report){
             if ( Objects.isNull(legalPerson.getName()) || legalPerson.getName().length() < 2)
-                error +="فیلد نام صحیح پر نشده";
+                error +=environment.getProperty("exc.message.validation.legal.Maneger");
 
             if (Objects.isNull(legalPerson.getManeger()) || legalPerson.getManeger().length() < 2)
-                error +="فیلد نام مدیر صحیح پر نشده";
+                error +=environment.getProperty("exc.message.validation.legal.CompanyCode");
             if ( Objects.isNull(legalPerson.getCompanyCode()) || legalPerson.getCompanyCode().length()<10 || legalPerson.getCompanyCode().length()>10)
-                error +="فیلد شماره کدثبتی صحیح پر نشده";
+                error +=environment.getProperty("exc.message.validation.legal.CompanyCode");
 
-        }else{ error +="کد ثبتی موجود نمی باشد";
+        }else{ error +=environment.getProperty("exc.message.validation.legal.CompanyCode.less");
         }
         if(!error.equals(""))
             throw  new Exception(error);
@@ -63,7 +65,7 @@ public class ValidationLegalPersonService {
         LegalPerson legalPersonDaoByCompanyCode= legalPersonDao.findByCompanyCode(companyCode);
 
         if (Objects.isNull(legalPersonDaoByCompanyCode)) {
-            error+="کد ثبتی مورد نظر یافت نشد";
+            error+=environment.getProperty("exc.message.validation.legal.CompanyCode.find");
         }
         if(!error.equals(""))
             throw  new Exception(error);
@@ -74,7 +76,7 @@ public class ValidationLegalPersonService {
         String error = "";
         List<LegalPerson> result = legalPersonDao.findByNameAndCompanyCode(legalPerson.getName(), legalPerson.getCompanyCode());
         if(Objects.isNull(result)){
-            error += " این مشخصات یافت نشد";
+            error += environment.getProperty("exc.message.validation.legal.CompanyCode.findAll");
         }
         if(!error.equals(""))
             throw  new Exception(error);

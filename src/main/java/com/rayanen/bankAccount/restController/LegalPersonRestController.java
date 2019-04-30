@@ -7,7 +7,7 @@ import com.rayanen.bankAccount.model.entity.LegalPerson;
 import com.rayanen.bankAccount.validation.rest.ValidationLegalPersonRest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
@@ -18,17 +18,17 @@ public class LegalPersonRestController  {
 
     private static Logger logger= LoggerFactory.getLogger(LegalPersonRestController.class);
 
-    public LegalPersonRestController(ValidationLegalPersonRest validationLegalPersonRest, Facade facade) {
+
+
+    private  ValidationLegalPersonRest validationLegalPersonRest;
+    private  Facade facade ;
+    private Environment environment;
+
+    public LegalPersonRestController(ValidationLegalPersonRest validationLegalPersonRest, Facade facade, Environment environment) {
         this.validationLegalPersonRest = validationLegalPersonRest;
         this.facade = facade;
+        this.environment = environment;
     }
-
-    ValidationLegalPersonRest validationLegalPersonRest;
-
-Facade facade ;
-
-
-
 
 
     @RequestMapping(value = "ws/saveLegal", method = RequestMethod.POST)
@@ -37,7 +37,7 @@ Facade facade ;
         validationLegalPersonRest.LegalValidation(legalPersonDto);
         facade.saveLegal(legalPersonDto);
         logger.info("endLegalSaveRestController");
-        return new ResponseDto<>(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);
+        return new ResponseDto<>(ResponseStatus.Ok, null, environment.getProperty("app.message.saveLegal"), null);
     }
 
 
@@ -48,7 +48,7 @@ Facade facade ;
         validationLegalPersonRest.LegalValidation(legalPersonDto);
         facade.updateLegal(legalPersonDto);
         logger.info("endLegalUpdateRestController");
-        return new ResponseDto<>(ResponseStatus.Ok, null, "اطلاعات ذخیره شد.", null);    }
+        return new ResponseDto<>(ResponseStatus.Ok, null, environment.getProperty("app.message.updateLegal"), null);    }
 
 
 

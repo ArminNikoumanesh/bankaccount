@@ -2,7 +2,6 @@ package com.rayanen.bankAccount.serviceController.impl;
 
 import com.rayanen.bankAccount.model.dao.BankAccountDao;
 import com.rayanen.bankAccount.model.dao.RealPersonDao;
-import com.rayanen.bankAccount.model.entity.BankAccount;
 import com.rayanen.bankAccount.model.entity.RealPerson;
 import com.rayanen.bankAccount.serviceController.RealPersonService;
 import com.rayanen.bankAccount.validation.service.ValidationRealPersonService;
@@ -10,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 
