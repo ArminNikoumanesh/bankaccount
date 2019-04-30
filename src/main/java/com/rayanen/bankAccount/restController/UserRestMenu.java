@@ -126,6 +126,7 @@ public class UserRestMenu {
         Map<String, Object> taskLocalVariables = runtimeService.getVariables(task.getProcessInstanceId());
         taskInputDto.setcNumber(taskLocalVariables.get("cNumber").toString());
         taskInputDto.setAmount((BigDecimal)taskLocalVariables.get("amount"));
+
         return new ResponseDto(ResponseStatus.Ok, taskInputDto, null, null);
     }
 
@@ -135,10 +136,12 @@ public class UserRestMenu {
         map.put("Accept", true);
         taskService.complete(taskDto.getTaskId(), map);
 
-        if(taskService.createTaskQuery().taskId(taskDto.getTaskId()).singleResult().getAssignee().equals("UserC")){
-
-
-        }
+//        if(taskService.createTaskQuery().taskId(taskDto.getTaskId()).singleResult().getAssignee().equals("UserC")){
+//           TransactionDto transactionDto= new TransactionDto();
+//            Map<String, Object> taskLocalVariables = runtimeService.getVariables(taskDto.getTaskId());
+//
+//
+//        }
         return new ResponseDto(ResponseStatus.Ok, null, environment.getProperty("app.message.activiti.approveTask"), null);
     }
 
