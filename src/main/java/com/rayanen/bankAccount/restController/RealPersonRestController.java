@@ -6,8 +6,10 @@ import com.rayanen.bankAccount.dto.ResponseStatus;
 import com.rayanen.bankAccount.facade.Facade;
 import com.rayanen.bankAccount.model.entity.RealPerson;
 import com.rayanen.bankAccount.validation.rest.ValidationRealPersonRest;
+import org.omg.CORBA.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,13 +20,14 @@ public class RealPersonRestController {
 
     private static Logger logger = LoggerFactory.getLogger(RealPersonRestController.class);
 
+    ValidationRealPersonRest validationRealPersonRest;
+    Facade facade;
+
     public RealPersonRestController(ValidationRealPersonRest validationRealPersonRest, Facade facade) {
         this.validationRealPersonRest = validationRealPersonRest;
         this.facade = facade;
     }
 
-    ValidationRealPersonRest validationRealPersonRest;
-    Facade facade;
 
 
 
@@ -67,13 +70,6 @@ public class RealPersonRestController {
     }
 
 
-    @RequestMapping(value = "ws/deleteRealAccount", method = RequestMethod.POST)
-    public ResponseDto<String> deleteRealAccount(@RequestBody BankAccountDto bankAccountDto) throws Exception {
-        logger.info("startLegalUpdateRestController");
-        facade.deleteRealAccount(bankAccountDto);
-        logger.info("endLegalUpdateRestController");
-        return new ResponseDto<>(ResponseStatus.Ok, null, "حساب مسدود شد", null);
-    }
 
 
 }

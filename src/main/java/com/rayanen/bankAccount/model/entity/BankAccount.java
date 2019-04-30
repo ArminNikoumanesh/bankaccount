@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "ARN_BANKACCOUNT")
-public  class BankAccount {
+public  class BankAccount{
     @Id
     @GeneratedValue
     private Integer id;

@@ -17,6 +17,7 @@ public class BankAccountDto {
     private List<TransactionDto> transactions;
 
     private Boolean isActive;
+
     public BankAccountDto() {
         this.isActive=true;
     }

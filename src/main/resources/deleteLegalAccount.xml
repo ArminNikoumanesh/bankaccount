@@ -3,7 +3,7 @@
 
         <search label="کدثبتی:"
                 singleResultSearch="ws/findLegal"
-                singleResultSearchInputkey="code"
+                singleResultSearchInputkey="companyCode"
                 multiResultSearchAddress="ws/findLegalAll"
                 multiResultSearchInput="x"
                 selectedResultKey="companyCode"
@@ -25,17 +25,17 @@
         <input label="تاریخ ثبت" type="date" value="obj.date"/>
         <input label="کد ثبتی" type="text" value="obj.companyCode"/>
 
-
-        <table label="حساب بانکی" value="obj.bankAccounts" type="editable"/>
-        <input label="موجودی اولیه" type="text" value="inventory"/>
-        <input label="شماره حساب" type="text" value="accountNumber"/>
-        <comboBox label="نوع حساب" value="accountTypes">
-            <comboItem itemLabel="جاری" itemValue="CURRENT"/>
-            <comboItem itemLabel="قرض الحسنه" itemValue="NORMAL"/>
-        </comboBox>
+        <table label="حساب بانکی" value="obj.bankAccounts" type="editable">
+            <input label="موجودی اولیه" type="text" value="inventory"/>
+            <input label="شماره حساب" type="text" value="accountNumber"/>
+            <comboBox label="نوع حساب" value="accountTypes">
+                <comboItem itemLabel="جاری" itemValue="CURRENT"/>
+                <comboItem itemLabel="قرض الحسنه" itemValue="NORMAL"/>
+            </comboBox>
+        </table>
         <actions>
             <button label="مسدود">
-                <webService address="ws/deleteLegalAccount" clearPageOnSuccess="true">
+                <webService address="ws/updateLegal" clearPageOnSuccess="true">
                     <webServiceInputObject name="obj"/>
                 </webService>
             </button>

@@ -1,6 +1,6 @@
 package com.rayanen.bankAccount.dto;
 
-import com.rayanen.bankAccount.model.entity.GenderType;
+
 
 
 import java.util.Date;

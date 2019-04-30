@@ -24,11 +24,11 @@ public class ValidationLegalPersonService {
 
         if(!report) {
             if ( Objects.isNull(legalPerson.getName()) || legalPerson.getName().length() < 2)
-                error +="not valid name";
+                error +="فیلد نام صحیح پر نشده";
             if ( Objects.isNull(legalPerson.getManeger()) || legalPerson.getManeger().length() < 2)
-                error +="not valid manager";
+                error +="فیلد نام مدیر صحیح پر نشده";
             if ( Objects.isNull(legalPerson.getCompanyCode()) || legalPerson.getCompanyCode().length()< 10 || legalPerson.getCompanyCode().length()>10)
-                error +="not valid nationalCode";
+                error +="فیلد شماره کدثبتی صحیح پر نشده";
 
         }else{ error +="کد ثبتی قبلا وارد شده";
 
@@ -44,12 +44,12 @@ public class ValidationLegalPersonService {
         String error = "";
         if(report){
             if ( Objects.isNull(legalPerson.getName()) || legalPerson.getName().length() < 2)
-                error +="not valid name";
+                error +="فیلد نام صحیح پر نشده";
 
             if (Objects.isNull(legalPerson.getManeger()) || legalPerson.getManeger().length() < 2)
-                error +="not valid manager";
+                error +="فیلد نام مدیر صحیح پر نشده";
             if ( Objects.isNull(legalPerson.getCompanyCode()) || legalPerson.getCompanyCode().length()<10 || legalPerson.getCompanyCode().length()>10)
-                error +="not valid nationalCode";
+                error +="فیلد شماره کدثبتی صحیح پر نشده";
 
         }else{ error +="کد ثبتی موجود نمی باشد";
         }

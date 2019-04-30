@@ -73,15 +73,6 @@ Facade facade ;
 
     }
 
-    @RequestMapping(value = "ws/deleteLegalAccount", method = RequestMethod.POST)
-    public ResponseDto<String> deleteLegalAccount(@RequestBody LegalPersonDto legalPersonDto) {
-        logger.info("startLegalUpdateRestController");
-        facade.deleteLegalAccount(legalPersonDto);
-        logger.info("endLegalUpdateRestController");
-        return new ResponseDto<>(ResponseStatus.Ok, null, "حساب مسدود شد", null);    }
-
-
-
 
 
 }

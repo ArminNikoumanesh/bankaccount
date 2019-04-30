@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -122,6 +123,7 @@ public class UserRestMenu {
         taskInputDto.setTaskId(task.getId());
         Map<String, Object> taskLocalVariables = runtimeService.getVariables(task.getProcessInstanceId());
         taskInputDto.setcNumber(taskLocalVariables.get("cNumber").toString());
+        taskInputDto.setAmount((BigDecimal)taskLocalVariables.get("amount"));
         return new ResponseDto(ResponseStatus.Ok, taskInputDto, null, null);
     }
 
@@ -130,6 +132,10 @@ public class UserRestMenu {
         Map<String, Object> map = new HashMap<>();
         map.put("Accept", true);
         taskService.complete(taskDto.getTaskId(), map);
+        if(taskService.createTaskQuery().taskId(taskDto.getTaskId()).singleResult().getAssignee().equals("UserC")){
+            
+
+        }
         return new ResponseDto(ResponseStatus.Ok, null, "تأیید شد.", null);
     }
 
@@ -140,6 +146,9 @@ public class UserRestMenu {
         taskService.complete(taskDto.getTaskId(), map);
         return new ResponseDto(ResponseStatus.Ok, null, "تأیید شد.", null);
     }
+
+
+
 
     @RequestMapping(value = "/pws/activiti/getUrlByFormKey", method = RequestMethod.POST)
     public ResponseDto<String> getUrlByFormKey(@RequestParam String formKey) {

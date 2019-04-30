@@ -15,5 +15,5 @@ public interface LegalPersonService {
 
      List<LegalPerson> findLegalAll(LegalPerson legalPerson) throws Exception;
 
-     ResponseDto<String> deleteLegalAccount(LegalPerson legalPerson) throws Exception;
+
 }

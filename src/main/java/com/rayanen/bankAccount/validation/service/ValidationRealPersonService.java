@@ -30,11 +30,11 @@ public class ValidationRealPersonService {
 
         if (!report) {
             if (Objects.isNull(realPerson.getName()) || realPerson.getName().length() < 2)
-                error +="not valid name";
+                error +="فیلد نام صحیح پر نشده است";
                 if (Objects.isNull(realPerson.getFamilyName()) || realPerson.getFamilyName().length() < 2)
-                    error +="not valid family";
+                    error +="فیلد نام خوانوادگی صحیح پر نشده";
                     if (Objects.isNull(realPerson.getNationalCode()) || realPerson.getNationalCode().length() < 10 || realPerson.getNationalCode().length() > 10)
-                        error +="not valid nationalCode";
+                        error +="فیلد شماره کد ملی صحیح پر نشده";
 
         }else{ error +="کد ملی قبلا وارد شده";
         }
@@ -71,17 +71,6 @@ public class ValidationRealPersonService {
             throw  new Exception(error);
     }
 
-
-    public void deleteRealAccount(BankAccount bankAccount)throws Exception{
-        String error = "";
-
-        boolean report=bankAccountDao.existsByAccountNumber(bankAccount.getAccountNumber());
-        if(!report){
-            error+="حسابی یافت نشد برای حذف";
-        }
-        if(!error.equals(""))
-            throw  new Exception(error);
-    }
 
 
     public void findByNationalCode ( String  nationalCode)throws Exception {

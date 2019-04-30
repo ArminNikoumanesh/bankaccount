@@ -4,7 +4,9 @@ package com.rayanen.bankAccount.exception;
 import com.rayanen.bankAccount.dto.ResponseDto;
 import com.rayanen.bankAccount.dto.ResponseException;
 import com.rayanen.bankAccount.dto.ResponseStatus;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -22,7 +24,9 @@ public class ExceptionHandler {
             error = ((MethodArgumentNotValidException) throwable).getBindingResult().getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining());
         }else if (throwable instanceof HttpMessageNotReadableException)
         {
-            error="مقدار وارد شده صحیح نیست";
+            error="مقدار وارد شده برای این فیلد صحیح نمیباشد";
+        }else if (throwable instanceof DataIntegrityViolationException){
+             error="شماره حساب وارد شده موجود میباشد لطفا مجددا تلاش کنید";
         }
 
         else {

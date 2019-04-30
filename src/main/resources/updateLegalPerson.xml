@@ -24,8 +24,6 @@
         <input label="کدپستی" type="text" value="obj.postalCode"/>
         <input label="تاریخ ثبت شرکت" type="date" value="obj.date"/>
         <input label="کدثبتی شرکت" type="text" value="obj.companyCode" />
-        <input label="شماره حساب" type="text" value="obj.accountNumber" />
-
 
         <table label="تلفن" value="obj.numbers" type="editable">
             <input label="تلفن" type="text" value="number"/>

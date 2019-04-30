@@ -4,6 +4,7 @@ package com.rayanen.bankAccount.serviceController.impl;
 import com.rayanen.bankAccount.dto.ResponseDto;
 import com.rayanen.bankAccount.dto.ResponseStatus;
 import com.rayanen.bankAccount.model.dao.LegalPersonDao;
+import com.rayanen.bankAccount.model.entity.BankAccount;
 import com.rayanen.bankAccount.model.entity.LegalPerson;
 import com.rayanen.bankAccount.restController.LegalPersonRestController;
 import com.rayanen.bankAccount.serviceController.LegalPersonService;
@@ -40,7 +41,8 @@ public class LegalPersonServiceImpl implements LegalPersonService {
 
     public void updateLegal( LegalPerson legalPerson) throws Exception {
         logger.info("startUpdateLegalService");
-       validationLegalPersonService.updateLegalValidation(legalPerson);
+        validationLegalPersonService.updateLegalValidation(legalPerson);
+        legalPersonDao.save(legalPerson);
         logger.info("endUpdateLegalService");
 
     }
@@ -65,13 +67,6 @@ public class LegalPersonServiceImpl implements LegalPersonService {
         return result;
     }
 
-
-    public ResponseDto<String> deleteLegalAccount( LegalPerson legalPerson) {
-        logger.info("startLegalUpdateRestController");
-//       legalPerson.getBankAccounts().get();
-
-        logger.info("endLegalUpdateRestController");
-        return new ResponseDto<>(ResponseStatus.Ok, null, "حساب مسدود شد", null);    }
 
 
 

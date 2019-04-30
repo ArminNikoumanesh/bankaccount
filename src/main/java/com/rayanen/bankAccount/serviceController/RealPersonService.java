@@ -15,6 +15,6 @@ public interface RealPersonService {
 
     List<RealPerson> findRealAll(RealPerson realPerson)throws Exception;
 
-     void deleteRealAccount( BankAccount bankAccount) throws Exception;
+
 
 }

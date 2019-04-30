@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -43,7 +44,7 @@ public class RealPersonServiceImpl implements RealPersonService {
     public void updateReal(RealPerson realPerson) throws Exception {
         logger.info("startUpdateUpdateService");
            validationRealPersonService.realUpdateValidation(realPerson);
-
+            realPersonDao.save(realPerson);
             logger.info("endUpdateUpdateService");
         }
 
@@ -51,9 +52,11 @@ public class RealPersonServiceImpl implements RealPersonService {
 
 
     public RealPerson findByNationalCode(String nationalCode) throws Exception {
-
+        logger.info("startFindByNationalCodeService");
         validationRealPersonService.findByNationalCode(nationalCode);
         RealPerson realPerson = realPersonDao.findByNationalCode(nationalCode);
+        logger.info("endFindByNationalCodeService");
+
         return realPerson;
     }
 
@@ -69,15 +72,7 @@ public class RealPersonServiceImpl implements RealPersonService {
 
 
 
-    public void deleteRealAccount( BankAccount bankAccount) throws Exception {
-        logger.info("startLegalUpdateRestController");
-        validationRealPersonService.deleteRealAccount(bankAccount);
-        bankAccount.setActive(false);
-        bankAccountDao.save(bankAccount);
-        logger.info("endLegalUpdateRestController");
 
-
-    }
 
 
 

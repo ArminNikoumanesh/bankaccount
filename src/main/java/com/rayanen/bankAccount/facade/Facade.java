@@ -82,14 +82,8 @@ public class Facade {
     }
 
 
-    @Transactional(rollbackOn = Exception.class)
-    public ResponseDto<String> deleteLegalAccount( LegalPersonDto legalPersonDto) {
-        logger.info("startLegalUpdateRestController");
-        LegalPerson legalPerson = modelMapper.map(legalPersonDto, LegalPerson.class);
-        legalPersonService.deleteLegalAccount(legalPerson);
-        logger.info("endLegalUpdateRestController");
-        return new ResponseDto<>(ResponseStatus.Ok, null, "حساب مسدود شد", null);
-    }
+
+
 
 
     @Transactional(rollbackOn = Exception.class)
@@ -102,13 +96,11 @@ public class Facade {
     }
 
 
-    @Transactional(rollbackOn = Exception.class)
     public void updateReal( RealPersonDto realPersonDto) throws Exception {
         logger.info("startUpdateRealFacade");
         RealPerson realPerson = modelMapper.map(realPersonDto, RealPerson.class);
         realPersonService.updateReal(realPerson);
         logger.info("endUpdateRealFacade");
-
     }
 
 
@@ -135,13 +127,8 @@ public class Facade {
         return realPersonListResponse;
     }
 
-    @Transactional(rollbackOn = Exception.class)
-    public void deleteRealAccount( BankAccountDto bankAccountDto) throws Exception {
-        logger.info("startLegalUpdateRestController");
-        BankAccount bankAccount = modelMapper.map(bankAccountDto, BankAccount.class);
-        realPersonService.deleteRealAccount(bankAccount);
-        logger.info("endLegalUpdateRestController");
-    }
+
+
 
 
 

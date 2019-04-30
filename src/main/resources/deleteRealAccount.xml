@@ -36,10 +36,14 @@
                 <comboItem itemLabel="جاری" itemValue="CURRENT"/>
                 <comboItem itemLabel="قرض الحسنه" itemValue="NORMAL"/>
             </comboBox>
+            <comboBox label="وضعیت حساب" value="isActive">
+                <comboItem itemLabel="فعال" itemValue="true"/>
+                <comboItem itemLabel="مسدود" itemValue="false"/>
+            </comboBox>
         </table>
         <actions>
             <button label="ذخیره">
-                <webService address="ws/deleteLegalAccount" clearPageOnSuccess="true">
+                <webService address="ws/updateReal" clearPageOnSuccess="true">
                     <webServiceInputObject name="obj"/>
                 </webService>
             </button>
