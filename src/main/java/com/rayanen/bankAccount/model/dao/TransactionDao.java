@@ -18,12 +18,6 @@ public interface TransactionDao extends JpaRepository<Transaction, Integer> {
     @Query("SELECT T FROM Transaction T WHERE DATEPART(Days,transactionDate)=Days")
     List<Transaction> findByTransactionDateDays(@Param("Days") Integer Days);
 
-//    @Query("SELECT T FROM Transaction T WHERE (SELECT T FROM Transaction T WHERE DATEPART(MONTH,transactionDate)=Month ),DATEPART(Day,transactionDate)=Days")
-//  List<Transaction> findByTransactionDateBetween(@Param("Month") Integer Month,@Param("Days") Integer Days);
-
-//    @Query("SELECT T FROM Transaction T WHERE DATEPART(Day,transactionDate)=Day ")
-//    List<Transaction> findByTransactionDateAnd(@Param("Day") Integer Month);
-
 
 
 }

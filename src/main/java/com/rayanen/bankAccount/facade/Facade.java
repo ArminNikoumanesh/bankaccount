@@ -63,8 +63,6 @@ public class Facade {
 
 
 
-
-
     @Transactional(rollbackOn = Exception.class)
     public List<LegalPersonDto> findLegalAll( LegalPersonDto legalPersonDto) throws Exception {
         logger.info("startFindingAllLegalFacade");
@@ -125,11 +123,6 @@ public class Facade {
         logger.info("endRealFindingFacade");
         return realPersonListResponse;
     }
-
-
-
-
-
 
 
     @Transactional(rollbackOn = Exception.class)

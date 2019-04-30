@@ -135,13 +135,7 @@ public class UserRestMenu {
         Map<String, Object> map = new HashMap<>();
         map.put("Accept", true);
         taskService.complete(taskDto.getTaskId(), map);
-
-//        if(taskService.createTaskQuery().taskId(taskDto.getTaskId()).singleResult().getAssignee().equals("UserC")){
-//           TransactionDto transactionDto= new TransactionDto();
-//            Map<String, Object> taskLocalVariables = runtimeService.getVariables(taskDto.getTaskId());
-//
-//
-//        }
+        
         return new ResponseDto(ResponseStatus.Ok, null, environment.getProperty("app.message.activiti.approveTask"), null);
     }
 

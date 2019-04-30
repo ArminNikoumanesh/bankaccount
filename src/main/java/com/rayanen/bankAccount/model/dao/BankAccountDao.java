@@ -18,6 +18,6 @@ public interface BankAccountDao extends JpaRepository<BankAccount, Integer> {
 @Query("SELECT B FROM BankAccount B ")
   List <BankAccount> findByAccountNumber();
 
-//    boolean existsByActiveTypeIs();
+
 
 }
