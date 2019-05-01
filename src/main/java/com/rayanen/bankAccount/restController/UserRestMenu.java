@@ -2,6 +2,9 @@ package com.rayanen.bankAccount.restController;
 
 import com.rayanen.bankAccount.dto.*;
 import com.rayanen.bankAccount.dto.ResponseStatus;
+import com.rayanen.bankAccount.facade.Facade;
+import com.rayanen.bankAccount.model.entity.Transaction;
+import com.rayanen.bankAccount.serviceController.TransactionService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -32,7 +35,8 @@ public class UserRestMenu {
     private RuntimeService runtimeService;
     @Autowired
     private Environment environment;
-
+    @Autowired
+    private TransactionService transactionService;
 
 
 
@@ -131,13 +135,31 @@ public class UserRestMenu {
     }
 
     @RequestMapping(value = "/ws/activiti/approveTask", method = RequestMethod.POST)
-    public ResponseDto approveTask(@RequestBody TaskDto taskDto) {
+    public ResponseDto approveTask(@RequestBody TaskDto taskDto) throws Exception {
         Map<String, Object> map = new HashMap<>();
+        Map<String, Object> var = taskService.getVariables(taskDto.getTaskId());
         map.put("Accept", true);
+        map.put("cNumber",var.get("cNumber"));
+        map.put("amount", var.get("amount"));
+        if(taskService.createTaskQuery().taskId(taskDto.getTaskId()).singleResult().getAssignee().equals("UserC")){
+            Transaction transactionDto=new Transaction();
+            transactionDto.setDecreaserAccountNumber(var.get("cNumber").toString());
+            transactionDto.setAmount(new BigDecimal(var.get("amount").toString()) );
+            transactionService.decreaseTransaction(transactionDto);
+//            transactionRestController.decreaseTransaction(transactionDto);
+//            taskService.complete(taskDto.getTaskId());
+        }
         taskService.complete(taskDto.getTaskId(), map);
-        
         return new ResponseDto(ResponseStatus.Ok, null, environment.getProperty("app.message.activiti.approveTask"), null);
     }
+
+
+
+
+
+
+
+
 
     @RequestMapping(value = "/ws/activiti/rejectTask", method = RequestMethod.POST)
     public ResponseDto rejectTask(@RequestBody TaskDto taskDto) {

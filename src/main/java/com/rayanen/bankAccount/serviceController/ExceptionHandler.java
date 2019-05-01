@@ -1,4 +1,4 @@
-package com.rayanen.bankAccount.exception;
+package com.rayanen.bankAccount.serviceController;
 
 
 import com.rayanen.bankAccount.dto.ResponseDto;
@@ -25,11 +25,12 @@ private Environment environment;
         String error;
         if (throwable instanceof MethodArgumentNotValidException ) {
             error = ((MethodArgumentNotValidException) throwable).getBindingResult().getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining());
-        }else if (throwable instanceof HttpMessageNotReadableException)
-        {
+        }else if (throwable instanceof HttpMessageNotReadableException){
             error=environment.getProperty("exc.message.handleAllExceptions.HttpMessageNotReadableException");
         }else if (throwable instanceof DataIntegrityViolationException){
              error=environment.getProperty("exc.message.handleAllExceptions.DataIntegrityViolationException");
+        }else if(throwable instanceof NumberFormatException) {
+            error = environment.getProperty("exc.message.handleAllExceptions.HttpMessageNotReadableException");
         }
 
         else {
